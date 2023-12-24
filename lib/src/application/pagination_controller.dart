@@ -47,8 +47,15 @@ abstract interface class PaginationController with ChangeNotifier {
   /// When changed, the listeners will be notified.
   set search(Object? value);
 
-  /// An unmodifiable collection of the filters applied in the query.
-  Iterable<(String field, FilterOperator operator)> get filters;
+  /// An unmodifiable map of the filters applied in the query.
+  /// Has the following structure:
+  /// ```dart
+  /// filters = {
+  ///   'column': { FilterOperator, FilterOperator, ... },
+  ///   ...
+  /// }
+  /// ```
+  Map<String, Set<FilterOperator>> get filters;
 
   /// An unmodifiable map of the sorts applied in the query.
   Map<String, SortOrder> get sorts;
@@ -170,9 +177,8 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   @override
-  Iterable<(String, FilterOperator)> get filters => _filters.entries.expand(
-        (entry) => entry.value.map((op) => (entry.key, op)),
-      );
+  Map<String, Set<FilterOperator>> get filters =>
+      UnmodifiableMapView(_filters.map((key, value) => MapEntry(key, UnmodifiableSetView(value))));
 
   @override
   void clearSorts({bool notify = true}) {
