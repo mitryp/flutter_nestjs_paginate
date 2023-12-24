@@ -1,0 +1,1 @@
+library flutter_nestjs_paginate;

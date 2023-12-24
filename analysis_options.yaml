@@ -1,0 +1,16 @@
+include: package:flutter_lints/flutter.yaml
+
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
+linter:
+  rules:
+    prefer_single_quotes: true
+    require_trailing_commas: true
+    sort_unnamed_constructors_first: true
+    super_goes_last: true
+    prefer_relative_imports: true
+
+analyzer:
+  exclude:
+    - lib/src/domain/dto/*.g.dart
+    - lib/src/domain/dto/*.freezed.dart
