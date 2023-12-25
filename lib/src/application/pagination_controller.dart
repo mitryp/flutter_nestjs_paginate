@@ -97,12 +97,12 @@ abstract interface class PaginationController with ChangeNotifier {
   /// Otherwise, the sort will not be added, unless validation is disabled.
   void addSort(String field, SortOrder order);
 
-  void clearSorts({bool notify = true});
+  void clearSorts();
 
   /// Deletes sort query by the given [field].
   ///
   /// When changed, the listeners will be notified unless [notify] is set to false.
-  void deleteSort(String field, {bool notify});
+  void deleteSort(String field);
 
   /// Adds a filter by the given [field] with the given [operator] to the query.
   ///
@@ -118,19 +118,36 @@ abstract interface class PaginationController with ChangeNotifier {
   /// If the [operator] is given, removes only the filter containing the operator.
   ///
   /// When changed, the listeners will be notified unless [notify] is set to false.
-  void removeFilter(String field, {FilterOperator? operator, bool notify});
+  void removeFilter(String field, [FilterOperator? operator]);
 
-  void clearFilters({bool notify});
+  void clearFilters();
+
+  /// Performs the operation/operations on this controller without notifying listeners.
+  /// Use it to replace filters or sorts, or change multiple parameters at once without unnecessary
+  /// network requests.
+  ///
+  /// All operations must be performed inside the provided function.
+  ///
+  /// If [notifyAfter] is true, the listeners will be notified after all the silent operations are
+  /// performed.
+  void silently(void Function(PaginationController controller) fn, {bool notifyAfter});
 
   /// Creates a [QueryParams] map from the parameters of this [PaginationController].
   QueryParams toMap();
 }
 
 class _PaginationController with ChangeNotifier implements PaginationController {
-  // final Set<String> _sortableColumns;
-  // final Set<String> _filterableColumns;
+  // controller-specific validation options
+  /// Whether this controller should validate the columns used in [addSort] and [addFilter].
   final bool _validateColumns;
+
+  /// Whether this controller should throw [StateError] when column validation fails.
+  /// Has no effect if [_validateColumns] is set to false.
   final bool _strictValidation;
+
+  /// Whether this controller notifies its listeners.
+  /// Used internally.
+  bool _doesNotify = true;
 
   // private pagination options
 
@@ -155,6 +172,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   @override
   set limit(int value) {
     if (value == limit) return;
+
     _notifyOf(() => _limit = value);
   }
 
@@ -164,6 +182,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   @override
   set page(int value) {
     if (value == page) return;
+
     _notifyOf(() => _page = value);
   }
 
@@ -177,43 +196,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   @override
-  Map<String, Set<FilterOperator>> get filters =>
-      UnmodifiableMapView(_filters.map((key, value) => MapEntry(key, UnmodifiableSetView(value))));
-
-  @override
-  void clearSorts({bool notify = true}) {
-    if (_sorts.isEmpty) {
-      return;
-    }
-
-    _sorts.clear();
-    if (notify) notifyListeners();
-  }
-
-  @override
-  void clearFilters({bool notify = true}) {
-    if (_filters.isEmpty) {
-      return;
-    }
-
-    _filters.clear();
-    if (notify) notifyListeners();
-  }
-
-  @override
   Map<String, SortOrder> get sorts => UnmodifiableMapView(_sorts);
-
-  bool _isSortValid(String column) {
-    if (!_validateColumns || (paginateConfig?.sortableColumns ?? const {}).contains(column)) {
-      return true;
-    }
-
-    if (!_strictValidation) {
-      return false;
-    }
-
-    throw StateError('Sort by $column is not allowed by PaginationController configuration.');
-  }
 
   @override
   void addSort(String field, SortOrder order) {
@@ -235,22 +218,16 @@ class _PaginationController with ChangeNotifier implements PaginationController 
     if (notify) notifyListeners();
   }
 
-  bool _isFilterValid(String column, FilterOperator operator) {
-    final filterableColumns = paginateConfig?.filterableColumns ?? const {};
+  @override
+  void clearSorts() {
+    if (_sorts.isEmpty) return;
 
-    if (!_validateColumns || (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
-      return true;
-    }
-
-    if (!_strictValidation) {
-      return false;
-    }
-
-    throw StateError(
-      'Filter ${operator.runtimeType} by $column '
-      'is not allowed by PaginationController configuration.',
-    );
+    _notifyOf(_sorts.clear);
   }
+
+  @override
+  Map<String, Set<FilterOperator>> get filters =>
+      UnmodifiableMapView(_filters.map((key, value) => MapEntry(key, UnmodifiableSetView(value))));
 
   @override
   void addFilter(String field, FilterOperator operator) {
@@ -273,7 +250,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   @override
-  void removeFilter(String field, {FilterOperator? operator, bool notify = true}) {
+  void removeFilter(String field, [FilterOperator? operator]) {
     if (operator == null) {
       if (_filters.remove(field) != null) notifyListeners();
       return;
@@ -285,7 +262,24 @@ class _PaginationController with ChangeNotifier implements PaginationController 
       return;
     }
 
-    if (notify) notifyListeners();
+    notifyListeners();
+  }
+
+  @override
+  void clearFilters() {
+    if (_filters.isEmpty) return;
+
+    _notifyOf(_filters.clear);
+  }
+
+  @override
+  void silently(void Function(PaginationController controller) fn, {bool notifyAfter = false}) {
+    _doesNotify = false;
+
+    fn(this);
+
+    _doesNotify = true;
+    if (notifyAfter) notifyListeners();
   }
 
   @override
@@ -323,6 +317,40 @@ class _PaginationController with ChangeNotifier implements PaginationController 
         _strictValidation = strictValidation {
     _sorts.addAll(sorts);
     _filters.addAll(filters);
+  }
+
+  @override
+  void notifyListeners() {
+    if (_doesNotify) super.notifyListeners();
+  }
+
+  bool _isSortValid(String column) {
+    if (!_validateColumns || (paginateConfig?.sortableColumns ?? const {}).contains(column)) {
+      return true;
+    }
+
+    if (!_strictValidation) {
+      return false;
+    }
+
+    throw StateError('Sort by $column is not allowed by PaginationController configuration.');
+  }
+
+  bool _isFilterValid(String column, FilterOperator operator) {
+    final filterableColumns = paginateConfig?.filterableColumns ?? const {};
+
+    if (!_validateColumns || (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
+      return true;
+    }
+
+    if (!_strictValidation) {
+      return false;
+    }
+
+    throw StateError(
+      'Filter ${operator.runtimeType} by $column '
+      'is not allowed by PaginationController configuration.',
+    );
   }
 
   void _notifyOf(void Function() fn) {
