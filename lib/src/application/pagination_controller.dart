@@ -305,7 +305,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   _PaginationController({
-    int limit = 20,
+    int? limit,
     int page = 1,
     Map<String, SortOrder> sorts = const {},
     Map<String, Set<FilterOperator>> filters = const {},
@@ -313,7 +313,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
     bool validateColumns = true,
     bool strictValidation = false,
     this.paginateConfig,
-  })  : _limit = limit,
+  })  : _limit = limit ?? paginateConfig?.defaultLimit ?? 20,
         _page = page,
         _search = search,
         _validateColumns = validateColumns,
