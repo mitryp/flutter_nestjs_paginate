@@ -318,8 +318,15 @@ class _PaginationController with ChangeNotifier implements PaginationController 
         _search = search,
         _validateColumns = validateColumns,
         _strictValidation = strictValidation {
-    _sorts.addAll(sorts);
     _filters.addAll(filters);
+
+    _sorts.addAll(sorts);
+    if (sorts.isEmpty) {
+      final defaultSort = paginateConfig?.defaultSortBy;
+      if (defaultSort != null) {
+        _sorts.addAll(defaultSort);
+      }
+    }
   }
 
   @override
