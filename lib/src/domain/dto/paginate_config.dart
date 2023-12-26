@@ -45,7 +45,7 @@ class PaginateConfig with _$PaginateConfig {
     @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder>? defaultSortBy,
   }) = _PaginateConfig;
 
-  /// Deserializes [PaginateConfig] from JSON received from a NextJS server. It can handle edge
+  /// Deserializes [PaginateConfig] from JSON received from a NestJS server. It can handle edge
   /// cases, such as {'column': true} in `filterableColumns` and other TS moments.
   factory PaginateConfig.fromJson(Map<String, Object?> json) => _$PaginateConfigFromJson(json);
 }
