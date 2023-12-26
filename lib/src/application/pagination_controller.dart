@@ -104,7 +104,9 @@ abstract interface class PaginationController with ChangeNotifier {
   /// When changed, the listeners will be notified.
   void removeSort(String field);
 
-  /// Removes all sorts from the query.
+  /// Removes all sorts from the query and sets [filters] to the [paginateConfig.defaultSortBy].
+  /// If no config is present, an empty map will be used instead.
+  ///
   /// If the sort set is not empty, the listeners are notified.
   void clearSorts();
 
@@ -228,8 +230,14 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   @override
   void clearSorts() {
     if (_sorts.isEmpty) return;
+    final defaultSortBy = paginateConfig?.defaultSortBy;
 
-    _notifyOf(_sorts.clear);
+    _sorts.clear();
+    if (defaultSortBy != null) {
+      _sorts.addAll(defaultSortBy);
+    }
+
+    notifyListeners();
   }
 
   @override
