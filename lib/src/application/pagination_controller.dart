@@ -97,12 +97,14 @@ abstract interface class PaginationController with ChangeNotifier {
   /// Otherwise, the sort will not be added, unless validation is disabled.
   void addSort(String field, SortOrder order);
 
-  void clearSorts();
-
-  /// Deletes sort query by the given [field].
+  /// Removes a sort query by the given [field].
   ///
-  /// When changed, the listeners will be notified unless [notify] is set to false.
-  void deleteSort(String field);
+  /// When changed, the listeners will be notified.
+  void removeSort(String field);
+
+  /// Removes all sorts from the query.
+  /// If the sort set is not empty, the listeners are notified.
+  void clearSorts();
 
   /// Adds a filter by the given [field] with the given [operator] to the query.
   ///
@@ -117,9 +119,11 @@ abstract interface class PaginationController with ChangeNotifier {
   /// Removes all filters by the given [field] from the query.
   /// If the [operator] is given, removes only the filter containing the operator.
   ///
-  /// When changed, the listeners will be notified unless [notify] is set to false.
+  /// When changed, the listeners will be notified.
   void removeFilter(String field, [FilterOperator? operator]);
 
+  /// Removes all filters from the query.
+  /// If the filter set is not empty, the listeners are notified.
   void clearFilters();
 
   /// Performs the operation/operations on this controller without notifying listeners.
@@ -128,8 +132,7 @@ abstract interface class PaginationController with ChangeNotifier {
   ///
   /// All operations must be performed inside the provided function.
   ///
-  /// If [notifyAfter] is true, the listeners will be notified after all the silent operations are
-  /// performed.
+  /// If [notifyAfter] is set to true, listeners will be notified after the function is executed.
   void silently(void Function(PaginationController controller) fn, {bool notifyAfter});
 
   /// Creates a [QueryParams] map from the parameters of this [PaginationController].
@@ -210,7 +213,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   @override
-  void deleteSort(String field, {bool notify = true}) {
+  void removeSort(String field, {bool notify = true}) {
     if (_sorts.remove(field) == null) {
       return;
     }
