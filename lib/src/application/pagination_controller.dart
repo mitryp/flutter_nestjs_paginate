@@ -63,8 +63,7 @@ abstract interface class PaginationController with ChangeNotifier {
   /// Creates a new [PaginationController].
   ///
   /// The configuration includes:
-  /// - [sortableColumns] - names of the entity fields that can be sorted by;
-  /// - [filterableColumns] - names of the entity fields that can be filtered by;
+  /// - [paginateConfig] - refer to the [PaginateConfig] docs;
   /// - [validateColumns] - whether this controller should validate the sort and filter columns
   /// when adding them;
   /// - [strictValidation] - if true, failed column validation will throw [StateError].
@@ -77,6 +76,9 @@ abstract interface class PaginationController with ChangeNotifier {
   /// - [sorts] - sorts of the query;
   /// - [filters] - filters of the query;
   /// - [search] - the search query.
+  ///
+  /// Note that no columns are allowed for sorting and filtering by default, so consider providing
+  /// the [paginateConfig].
   factory PaginationController({
     bool validateColumns,
     bool strictValidation,
@@ -126,7 +128,7 @@ abstract interface class PaginationController with ChangeNotifier {
   /// If the filter set is not empty, the listeners are notified.
   void clearFilters();
 
-  /// Performs the operation/operations on this controller without notifying listeners.
+  /// Performs the operations on this controller without notifying listeners.
   /// Use it to replace filters or sorts, or change multiple parameters at once without unnecessary
   /// network requests.
   ///
@@ -174,7 +176,9 @@ class _PaginationController with ChangeNotifier implements PaginationController 
 
   @override
   set limit(int value) {
-    if (value == limit) return;
+    if (value == limit || value > (paginateConfig?.maxLimit ?? double.infinity)) {
+      return;
+    }
 
     _notifyOf(() => _limit = value);
   }
