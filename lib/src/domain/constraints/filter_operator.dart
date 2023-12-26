@@ -12,6 +12,8 @@
 /// - $ilike - [Ilike]
 /// - $sw - [Sw]
 /// - $contains - [Contains]
+/// - $or - [Or]
+/// - $and is a default behavior when multiple filters are applied.
 ///
 /// Refer to [nest-paginate docs](https://www.npmjs.com/package/nestjs-paginate)
 /// for more information about filters.
@@ -33,8 +35,8 @@ abstract class FilterOperator<TValue> {
 
   static Iterable<String> get representations => representationToType.keys;
 
-  static Map<Type, String> get typeToRepresentation =>
-      representationToType.map((key, value) => MapEntry(value, key));
+  /// An iterable of all supported operators
+  static const Iterable<Type> all = {Eq, Not, Null, In, Gt, Lt, Btw, Ilike, Sw, Contains, Or};
 
   /// A text representation of the operator.
   /// Should not start with $, as it is normally inserted by [toString].
