@@ -6,13 +6,30 @@ import '../application/pagination_controller.dart';
 import '../domain/dto/paginated.dart';
 import '../domain/typedefs.dart';
 
+/// A [WidgetBuilder] which also takes an [error].
+///
+/// Should build a human-readable representation for the error.
 typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
 
+/// A [WidgetBuilder] which also takes a [Paginated]<[TModel]> [data].
+/// Should build a presentation for the [Paginated.data].
 typedef PaginatedViewBuilder<TModel> = Widget Function(
   BuildContext context,
   Paginated<TModel> data,
 );
 
+/// A function that makes a paginated request.
+/// Takes a [BuildContext] and [QueryParams] in a ready-to-send state.
+///
+/// The QueryParams can be passed to your HTTP client directly, if supported, or, when using
+/// `package:http`, should be included in a [Uri].
+///
+/// For example:
+/// ```dart
+/// http.get(Uri.https('example.com', 'endpoint', params));
+/// ```
+///
+/// where `params` are [QueryParams] in the fetcher lambda.
 typedef PaginatedDataFetcher<TModel> = FutureOr<Paginated<TModel>> Function(
   BuildContext context,
   QueryParams params,
