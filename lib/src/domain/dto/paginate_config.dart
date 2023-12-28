@@ -68,9 +68,15 @@ Map<String, Set<Type>> _filterableColumnsFromJson(Map<String, dynamic> filters) 
         if (value is List) {
           operators = value;
         } else if (value is bool) {
+          // to support 'column: true' in PaginateConfig in nestjs-paginate
           operators = FilterOperator.representations.toList(growable: false);
         } else {
-          throw StateError('unsupported syntax for filterableColumns: $value');
+          throw StateError(
+            'Unsupported syntax for filterableColumns: $value\n'
+            'If this happened and you did no modifications to `nestjs-paginate` behavior, '
+            'consider reporting this issue including your user-facing configuration: '
+            'https://github.com/mitryp/flutter_nestjs_paginate/issues/new/choose',
+          );
         }
 
         return MapEntry(
