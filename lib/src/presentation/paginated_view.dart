@@ -70,13 +70,10 @@ class PaginatedView<TModel> extends StatefulWidget {
   final PaginatedDataFetcher<TModel> fetcher;
 
   /// A callback called every time the [fetcher] finishes loading or throws an error.
-  ///
-  /// Can be used to unlock pagination controls.
-  final VoidCallback? onLoaded;
+  /// If the fetch was successful, the result of the fetch will be passed to the callback.
+  final ValueChanged<Paginated<TModel>?>? onLoaded;
 
   /// A callback called every time the [fetcher] is called.
-  ///
-  /// Can be used to lock pagination controls.
   final VoidCallback? onFetch;
 
   /// Creates a [PaginatedView] with the parameters provided.
@@ -136,7 +133,8 @@ class _PaginatedViewState<TModel> extends State<PaginatedView<TModel>> {
 
     try {
       final future = widget.fetcher(context, widget.controller.toMap());
-      widget.onFetch?.call();
+
+      _deferCallback(() => widget.onFetch?.call());
 
       _data = await future;
     } catch (err) {
@@ -146,8 +144,12 @@ class _PaginatedViewState<TModel> extends State<PaginatedView<TModel>> {
     if (!mounted) return;
 
     setState(() => _isLoading = false);
-    widget.onLoaded?.call();
+
+    _deferCallback(() => widget.onLoaded?.call(_error == null ? _data : null));
   }
+
+  void _deferCallback(void Function() fn) =>
+      WidgetsBinding.instance.addPostFrameCallback((_) => fn());
 
   @override
   Widget build(BuildContext context) {
