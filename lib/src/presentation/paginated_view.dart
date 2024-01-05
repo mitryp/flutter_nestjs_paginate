@@ -9,7 +9,7 @@ import '../domain/typedefs.dart';
 /// A [WidgetBuilder] which also takes an [error].
 ///
 /// Should build a human-readable representation for the error.
-typedef ErrorBuilder = Widget Function(BuildContext context, Object? error);
+typedef ErrorBuilder = Widget Function(BuildContext context, Object error);
 
 /// A [WidgetBuilder] which also takes a [Paginated]<[TModel]> [data].
 /// Should build a presentation for the [Paginated.data].
@@ -69,6 +69,16 @@ class PaginatedView<TModel> extends StatefulWidget {
   /// [Paginated]<[TModel]>.
   final PaginatedDataFetcher<TModel> fetcher;
 
+  /// A callback called every time the [fetcher] finishes loading or throws an error.
+  ///
+  /// Can be used to unlock pagination controls.
+  final VoidCallback? onLoaded;
+
+  /// A callback called every time the [fetcher] is called.
+  ///
+  /// Can be used to lock pagination controls.
+  final VoidCallback? onFetch;
+
   /// Creates a [PaginatedView] with the parameters provided.
   ///
   /// [controller] updates will make this widget update its data and call the [fetcher] with the
@@ -81,6 +91,8 @@ class PaginatedView<TModel> extends StatefulWidget {
     required this.errorBuilder,
     required this.fetcher,
     required this.loadingIndicator,
+    this.onFetch,
+    this.onLoaded,
     super.key,
   });
 
@@ -123,7 +135,10 @@ class _PaginatedViewState<TModel> extends State<PaginatedView<TModel>> {
     setState(() => _isLoading = true);
 
     try {
-      _data = await widget.fetcher(context, widget.controller.toMap());
+      final future = widget.fetcher(context, widget.controller.toMap());
+      widget.onFetch?.call();
+
+      _data = await future;
     } catch (err) {
       _error = err;
     }
@@ -131,6 +146,7 @@ class _PaginatedViewState<TModel> extends State<PaginatedView<TModel>> {
     if (!mounted) return;
 
     setState(() => _isLoading = false);
+    widget.onLoaded?.call();
   }
 
   @override
