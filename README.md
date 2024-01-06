@@ -168,7 +168,7 @@ To control the pagination, use the following:
 - get/set int **`page`** - the page of the paginated data to be requested. Default: `1`.
 - get/set int **`limit`** - the maximum amount of entries per page. Default: `20`.
 - get/set Object? **`search`** - the search query to be sent. Default: `null`.
-    Note that the search object must be string-serialisable in a meaningful way with `toString` for it to be correctly received by your server.
+    Note that the search object must be string-serializable in a meaningful way with `toString` for it to be correctly received by your server.
 
 If any of these fields are changed, the controller will notify its listeners (unless changed inside the `silently` function).  
 
@@ -211,7 +211,7 @@ This is a generic wrapper for the responses received from paginated endpoints.
 
 Matching the `PaginateConfig` from `nestjs-paginate`, it contains `data` - a list of your DTOs, and `meta` - `PaginatedMetadata`. 
 
-It can be deserialised using `Paginated.fromJson<TDto>(json, decoder)`, where `decoder` is a function taking a Map\<String, dynamic\> and returning your DTO:
+It can be deserialize using `Paginated.fromJson<TDto>(json, decoder)`, where `decoder` is a function taking a Map\<String, dynamic\> and returning your DTO:
 
 ```dart
 final json = await client.get<Map<String, dynamic>>('/paginated_collection');
