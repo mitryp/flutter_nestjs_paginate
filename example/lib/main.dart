@@ -40,12 +40,21 @@ class _PaginatedPageState extends State<PaginatedPage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           PaginatedView(
+            // provide a controller to control the pagination
             controller: _controller,
-            errorBuilder: (context, error) => ErrorWidget(error),
+            // fetcher is used to make a paginated request to your server
             fetcher: (context, params) =>
                 fetch(limit: params['limit'] as int, page: params['page'] as int),
+            // error builder will be called to visualise the error, if it occurs
+            errorBuilder: (context, error) => ErrorWidget(error),
+            // loading indicator will be built while the data is fetched
             loadingIndicator: (context) => const Center(child: CircularProgressIndicator()),
+            // view builder visualises a list of TModels received from the fetcher
             viewBuilder: (context, data) => CitiesView(data.data),
+            // you can also provide listeners for the
+            // fetch start end finish events. they are called
+            // in a post-frame callbacks, so you can call setState
+            // inside
             onFetch: () {
               if (!mounted) return;
               setState(() => _areControlsLocked = true);
