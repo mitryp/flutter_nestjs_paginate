@@ -69,7 +69,7 @@ Map<String, Set<Type>> _filterableColumnsFromJson(Map<String, dynamic> filters) 
           operators = value;
         } else if (value is bool) {
           // to support 'column: true' in PaginateConfig in nestjs-paginate
-          operators = FilterOperator.representations.toList(growable: false);
+          operators = value ? FilterOperator.representations.toList(growable: false) : const [];
         } else {
           throw StateError(
             'Unsupported syntax for filterableColumns: $value\n'

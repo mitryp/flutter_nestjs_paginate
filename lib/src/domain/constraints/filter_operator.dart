@@ -32,6 +32,7 @@ abstract class FilterOperator<TValue> {
     '\$ilike': Ilike,
     '\$sw': Sw,
     '\$contains': Contains,
+    '\$or': Or,
   };
 
   /// An iterable of all filter representations used in `nestjs-paginate`.
