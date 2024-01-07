@@ -88,7 +88,7 @@ abstract interface class PaginationController with ChangeNotifier {
     Map<String, Set<FilterOperator>> filters,
     Object? search,
     PaginateConfig paginateConfig,
-  }) = _PaginationController;
+  }) = PaginationControllerImpl;
 
   /// Adds sort query by the given [field] with the given [order] to the query.
   ///
@@ -143,7 +143,8 @@ abstract interface class PaginationController with ChangeNotifier {
   QueryParams toMap();
 }
 
-class _PaginationController with ChangeNotifier implements PaginationController {
+@visibleForTesting
+class PaginationControllerImpl with ChangeNotifier implements PaginationController {
   /// Whether this controller should validate the columns used in [addSort] and [addFilter].
   final bool _validateColumns;
 
@@ -313,7 +314,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
     };
   }
 
-  _PaginationController({
+  PaginationControllerImpl({
     int? limit,
     int page = 1,
     Map<String, SortOrder> sorts = const {},
