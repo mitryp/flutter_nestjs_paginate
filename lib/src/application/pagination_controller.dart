@@ -154,7 +154,8 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
 
   /// Whether this controller notifies its listeners.
   /// Used internally.
-  bool _doesNotify = true;
+  @visibleForTesting
+  bool doesNotify = true;
 
   int _limit;
 
@@ -287,11 +288,11 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
 
   @override
   void silently(void Function(PaginationController controller) fn, {bool notifyAfter = false}) {
-    _doesNotify = false;
+    doesNotify = false;
 
     fn(this);
 
-    _doesNotify = true;
+    doesNotify = true;
     if (notifyAfter) notifyListeners();
   }
 
@@ -338,7 +339,7 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
 
   @override
   void notifyListeners() {
-    if (_doesNotify) super.notifyListeners();
+    if (doesNotify) super.notifyListeners();
   }
 
   bool _isSortValid(String column) {
