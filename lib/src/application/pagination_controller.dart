@@ -87,7 +87,7 @@ abstract interface class PaginationController with ChangeNotifier {
     Map<String, SortOrder> sorts,
     Map<String, Set<FilterOperator>> filters,
     Object? search,
-    PaginateConfig? paginateConfig,
+    PaginateConfig paginateConfig,
   }) = _PaginationController;
 
   /// Adds sort query by the given [field] with the given [order] to the query.
@@ -159,7 +159,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   // private pagination options
 
   @override
-  final PaginateConfig? paginateConfig;
+  final PaginateConfig paginateConfig;
 
   int _limit;
 
@@ -178,7 +178,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
 
   @override
   set limit(int value) {
-    if (value == limit || value > (paginateConfig?.maxLimit ?? double.infinity)) {
+    if (value == limit || value > paginateConfig.maxLimit) {
       return;
     }
 
@@ -230,12 +230,10 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   @override
   void clearSorts() {
     if (_sorts.isEmpty) return;
-    final defaultSortBy = paginateConfig?.defaultSortBy;
 
-    _sorts.clear();
-    if (defaultSortBy != null) {
-      _sorts.addAll(defaultSortBy);
-    }
+    _sorts
+      ..clear()
+      ..addAll(paginateConfig.defaultSortBy);
 
     notifyListeners();
   }
@@ -258,7 +256,10 @@ class _PaginationController with ChangeNotifier implements PaginationController 
         wasAdded = existing.add(operator);
         return existing;
       },
-      ifAbsent: () => {operator},
+      ifAbsent: () {
+        wasAdded = true;
+        return {operator};
+      },
     );
 
     if (wasAdded) notifyListeners();
@@ -324,8 +325,8 @@ class _PaginationController with ChangeNotifier implements PaginationController 
     Object? search,
     bool validateColumns = true,
     bool strictValidation = false,
-    this.paginateConfig,
-  })  : _limit = limit ?? paginateConfig?.defaultLimit ?? 20,
+    this.paginateConfig = const PaginateConfig(),
+  })  : _limit = limit ?? paginateConfig.defaultLimit,
         _page = page,
         _search = search,
         _validateColumns = validateColumns,
@@ -334,10 +335,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
 
     _sorts.addAll(sorts);
     if (sorts.isEmpty) {
-      final defaultSort = paginateConfig?.defaultSortBy;
-      if (defaultSort != null) {
-        _sorts.addAll(defaultSort);
-      }
+      _sorts.addAll(paginateConfig.defaultSortBy);
     }
   }
 
@@ -347,7 +345,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   bool _isSortValid(String column) {
-    if (!_validateColumns || (paginateConfig?.sortableColumns ?? const {}).contains(column)) {
+    if (!_validateColumns || paginateConfig.sortableColumns.contains(column)) {
       return true;
     }
 
@@ -359,7 +357,7 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   }
 
   bool _isFilterValid(String column, FilterOperator operator) {
-    final filterableColumns = paginateConfig?.filterableColumns ?? const {};
+    final filterableColumns = paginateConfig.filterableColumns;
 
     if (!_validateColumns || (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
       return true;
