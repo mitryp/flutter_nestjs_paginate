@@ -17,7 +17,7 @@
 ///
 /// Refer to [nest-paginate docs](https://www.npmjs.com/package/nestjs-paginate)
 /// for more information about filters.
-abstract class FilterOperator<TValue> {
+abstract class FilterOperator {
   /// A map of filter representations used in `nestjs-paginate` to Dart types used in this package.
   static const Map<String, Type> representationToType = {
     '\$eq': Eq,
@@ -46,7 +46,7 @@ abstract class FilterOperator<TValue> {
   String get operator;
 
   /// A value of this filter operation.
-  final TValue value;
+  final Object value;
 
   /// Creates a new [FilterOperator] with the given [value].
   const FilterOperator(this.value);
@@ -86,11 +86,11 @@ abstract class FilterOperator<TValue> {
 /// ```dart
 /// const Not(Eq(1)); // -> '$not:$eq:1'
 /// ```
-class Not<TValue> extends FilterOperator<FilterOperator<TValue>> {
+class Not extends FilterOperator {
   @override
   String get operator => 'not';
 
-  const Not(super.value);
+  const Not(FilterOperator super.value);
 }
 
 /// Represents the '$or:{other operator}'.
@@ -101,11 +101,11 @@ class Not<TValue> extends FilterOperator<FilterOperator<TValue>> {
 ///
 /// ```dart
 /// const Or(Not(Eq(1))); // -> '$or:$not:$eq:1'
-class Or<TValue> extends FilterOperator<FilterOperator<TValue>> {
+class Or extends FilterOperator {
   @override
   String get operator => 'or';
 
-  const Or(super.value);
+  const Or(FilterOperator super.value);
 }
 
 /// Represents the `$null` operator.
@@ -113,7 +113,7 @@ class Or<TValue> extends FilterOperator<FilterOperator<TValue>> {
 /// ```dart
 /// const Not(Null()); // -> '$not:$null'
 /// ```
-class Null extends FilterOperator<Object> {
+class Null extends FilterOperator {
   @override
   String get operator => '';
 
@@ -129,7 +129,7 @@ class Null extends FilterOperator<Object> {
 /// const Eq(10);      // -> '$eq:10'
 /// const Not(Eq(10)); // -> '$not:$eq:10'
 /// ```
-class Eq<TValue> extends FilterOperator<TValue> {
+class Eq extends FilterOperator {
   @override
   String get operator => 'eq';
 
@@ -144,15 +144,15 @@ class Eq<TValue> extends FilterOperator<TValue> {
 /// ```dart
 /// const In([10, 15, 20]); // -> '$in:10,15,20'
 /// ```
-class In<TValue> extends FilterOperator<List<TValue>> {
+class In extends FilterOperator {
   @override
   String get operator => 'in';
 
-  const In(super.value);
+  const In(List<Object?> super.value);
 }
 
 /// A base class for [Gt] and [Lt] with the [_orEqual] parameter.
-abstract class _ComparisonOperator<TValue> extends FilterOperator<TValue> {
+abstract class _ComparisonOperator extends FilterOperator {
   final bool _orEqual;
 
   const _ComparisonOperator(
@@ -173,7 +173,7 @@ abstract class _ComparisonOperator<TValue> extends FilterOperator<TValue> {
 /// const Gt(5);                 // -> '$gt:5'
 /// const Gt(-1, orEqual: true); // -> '$gte:-1'
 /// ```
-class Gt<TValue> extends _ComparisonOperator<TValue> {
+class Gt extends _ComparisonOperator {
   @override
   String get operator => 'gt';
 
@@ -192,7 +192,7 @@ class Gt<TValue> extends _ComparisonOperator<TValue> {
 /// const Lt(5);                 // -> '$lt:5'
 /// const Lt(-1, orEqual: true); // -> '$lte:-1'
 /// ```
-class Lt<TValue> extends _ComparisonOperator<TValue> {
+class Lt extends _ComparisonOperator {
   @override
   String get operator => 'lt';
 
@@ -209,11 +209,18 @@ class Lt<TValue> extends _ComparisonOperator<TValue> {
 /// const Btw(20, 31);                     // -> '$btw:20,31'
 /// const Btw('2022-02-02', '2022-02-10'); // -> '$btw:2022-02-02,2022-02-10'
 /// ```
-class Btw<TValue> extends FilterOperator<(TValue, TValue)> {
+class Btw extends FilterOperator {
   @override
   String get operator => 'btw';
 
-  const Btw(TValue a, TValue b) : super((a, b));
+  final (Object, Object) _value;
+
+  @override
+  (Object, Object) get value => _value;
+
+  const Btw(Object a, Object b)
+      : _value = (a, b),
+        super((a, b));
 
   @override
   String _representValue() {
@@ -228,7 +235,7 @@ class Btw<TValue> extends FilterOperator<(TValue, TValue)> {
 /// ```dart
 /// const Ilike('term'); // -> '$ilike:term'
 /// ```
-class Ilike<TValue> extends FilterOperator<TValue> {
+class Ilike extends FilterOperator {
   @override
   String get operator => 'ilike';
 
@@ -240,7 +247,7 @@ class Ilike<TValue> extends FilterOperator<TValue> {
 /// ```dart
 /// const Sw('term'); // -> '$sw:term'
 /// ```
-class Sw<TValue> extends FilterOperator<TValue> {
+class Sw extends FilterOperator {
   @override
   String get operator => 'sw';
 
@@ -256,9 +263,9 @@ class Sw<TValue> extends FilterOperator<TValue> {
 /// const Contains(['admin']);              // -> '$contains:admin'
 /// const Contains(['admin', 'moderator']); // -> '$contains:admin,moderator'
 /// ```
-class Contains<TValue> extends FilterOperator<List<TValue>> {
+class Contains extends FilterOperator {
   @override
   String get operator => 'contains';
 
-  const Contains(super.value);
+  const Contains(List<Object?> super.value);
 }
