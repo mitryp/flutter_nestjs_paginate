@@ -166,7 +166,8 @@ The fields it contains:
 
 To control the pagination, use the following:
 - get/set int **`page`** - the page of the paginated data to be requested. Default: `1`.
-- get/set int **`limit`** - the maximum amount of entries per page. Default: `20`.
+- get/set int **`limit`** - the maximum amount of entries per page. Default: `20`. 
+  If set to a value larger than `PaginateConfig.maxLimit`, it will be clamped to the `maxLimit`.
 - get/set Object? **`search`** - the search query to be sent. Default: `null`.
     Note that the search object must be string-serializable in a meaningful way with `toString` for it to be correctly received by your server.
 

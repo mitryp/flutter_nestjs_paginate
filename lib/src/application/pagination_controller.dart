@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 
@@ -176,11 +177,11 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
 
   @override
   set limit(int value) {
-    if (value == limit || value > paginateConfig.maxLimit) {
+    if (value == limit) {
       return;
     }
 
-    _notifyOf(() => _limit = value);
+    _notifyOf(() => _limit = min(value, paginateConfig.maxLimit));
   }
 
   @override
