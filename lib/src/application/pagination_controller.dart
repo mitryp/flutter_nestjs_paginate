@@ -207,22 +207,20 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
 
   @override
   void addSort(String field, SortOrder order) {
-    if (!_isSortValid(field)) {
+    if (!_isSortValid(field) || _sorts[field] == order) {
       return;
     }
 
-    _sorts[field] = order;
-
-    notifyListeners();
+    _notifyOf(() => _sorts[field] = order);
   }
 
   @override
-  void removeSort(String field, {bool notify = true}) {
+  void removeSort(String field) {
     if (_sorts.remove(field) == null) {
       return;
     }
 
-    if (notify) notifyListeners();
+    notifyListeners();
   }
 
   @override
@@ -308,7 +306,7 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
         'sortBy': _sorts.entries
             .map((e) => '${e.key}:${e.value.name.toUpperCase()}')
             .toList(growable: false),
-      ..._filters.map(
+      ...(_filters..removeWhere((key, value) => value.isEmpty)).map(
         (field, operators) =>
             MapEntry('filter.$field', operators.map((op) => '$op').toList(growable: false)),
       ),
