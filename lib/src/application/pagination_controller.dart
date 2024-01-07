@@ -15,7 +15,7 @@ import '../domain/typedefs.dart';
 /// Refer to the [PaginationController.new] documentation for more information.
 abstract interface class PaginationController with ChangeNotifier {
   /// A [PaginateConfig] of this controller.
-  PaginateConfig? get paginateConfig;
+  PaginateConfig get paginateConfig;
 
   /// Getter and setter for maximum items per page.
   ///
@@ -144,7 +144,6 @@ abstract interface class PaginationController with ChangeNotifier {
 }
 
 class _PaginationController with ChangeNotifier implements PaginationController {
-  // controller-specific validation options
   /// Whether this controller should validate the columns used in [addSort] and [addFilter].
   final bool _validateColumns;
 
@@ -155,11 +154,6 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   /// Whether this controller notifies its listeners.
   /// Used internally.
   bool _doesNotify = true;
-
-  // private pagination options
-
-  @override
-  final PaginateConfig paginateConfig;
 
   int _limit;
 
@@ -172,6 +166,8 @@ class _PaginationController with ChangeNotifier implements PaginationController 
   final Map<String, Set<FilterOperator>> _filters = {};
 
   // user-facing members
+  @override
+  final PaginateConfig paginateConfig;
 
   @override
   int get limit => _limit;
