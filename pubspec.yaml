@@ -20,6 +20,10 @@ dev_dependencies:
   build_runner: ^2.4.7
   freezed: ^2.4.6
   json_serializable: ^6.7.1
+  test_utils:
+    git:
+      url: https://github.com/mitryp/flutter_utils
+      path: packages/test_utils
 
 
 flutter:
