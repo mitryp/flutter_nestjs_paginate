@@ -45,7 +45,7 @@ class PaginateConfig with _$PaginateConfig {
     @Default(_defaultDefaultLimit) int defaultLimit,
 
     /// The default sorts applied when no sorts are configured in a controller.
-    @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder>? defaultSortBy,
+    @Default({}) @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder> defaultSortBy,
   }) = _PaginateConfig;
 
   /// Deserializes [PaginateConfig] from JSON received from a NestJS server. It can handle edge
@@ -53,7 +53,7 @@ class PaginateConfig with _$PaginateConfig {
   factory PaginateConfig.fromJson(Map<String, Object?> json) => _$PaginateConfigFromJson(json);
 }
 
-Map<String, SortOrder>? _defaultSortByFromJson(List<dynamic> value) => Map.fromEntries(
+Map<String, SortOrder> _defaultSortByFromJson(List<dynamic> value) => Map.fromEntries(
       value.cast<List>().map((sort) {
         final [field as String, orderName as String] = sort;
         final order = SortOrder.fromName(orderName);

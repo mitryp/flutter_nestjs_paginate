@@ -43,7 +43,7 @@ mixin _$PaginateConfig {
 
   /// The default sorts applied when no sorts are configured in a controller.
   @JsonKey(fromJson: _defaultSortByFromJson)
-  Map<String, SortOrder>? get defaultSortBy => throw _privateConstructorUsedError;
+  Map<String, SortOrder> get defaultSortBy => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $PaginateConfigCopyWith<PaginateConfig> get copyWith => throw _privateConstructorUsedError;
@@ -59,7 +59,7 @@ abstract class $PaginateConfigCopyWith<$Res> {
       @JsonKey(fromJson: _filterableColumnsFromJson) Map<String, Set<Type>> filterableColumns,
       int maxLimit,
       int defaultLimit,
-      @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder>? defaultSortBy});
+      @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder> defaultSortBy});
 }
 
 /// @nodoc
@@ -79,7 +79,7 @@ class _$PaginateConfigCopyWithImpl<$Res, $Val extends PaginateConfig>
     Object? filterableColumns = null,
     Object? maxLimit = null,
     Object? defaultLimit = null,
-    Object? defaultSortBy = freezed,
+    Object? defaultSortBy = null,
   }) {
     return _then(_value.copyWith(
       sortableColumns: null == sortableColumns
@@ -98,10 +98,10 @@ class _$PaginateConfigCopyWithImpl<$Res, $Val extends PaginateConfig>
           ? _value.defaultLimit
           : defaultLimit // ignore: cast_nullable_to_non_nullable
               as int,
-      defaultSortBy: freezed == defaultSortBy
+      defaultSortBy: null == defaultSortBy
           ? _value.defaultSortBy
           : defaultSortBy // ignore: cast_nullable_to_non_nullable
-              as Map<String, SortOrder>?,
+              as Map<String, SortOrder>,
     ) as $Val);
   }
 }
@@ -118,7 +118,7 @@ abstract class _$$PaginateConfigImplCopyWith<$Res> implements $PaginateConfigCop
       @JsonKey(fromJson: _filterableColumnsFromJson) Map<String, Set<Type>> filterableColumns,
       int maxLimit,
       int defaultLimit,
-      @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder>? defaultSortBy});
+      @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder> defaultSortBy});
 }
 
 /// @nodoc
@@ -136,7 +136,7 @@ class __$$PaginateConfigImplCopyWithImpl<$Res>
     Object? filterableColumns = null,
     Object? maxLimit = null,
     Object? defaultLimit = null,
-    Object? defaultSortBy = freezed,
+    Object? defaultSortBy = null,
   }) {
     return _then(_$PaginateConfigImpl(
       sortableColumns: null == sortableColumns
@@ -155,10 +155,10 @@ class __$$PaginateConfigImplCopyWithImpl<$Res>
           ? _value.defaultLimit
           : defaultLimit // ignore: cast_nullable_to_non_nullable
               as int,
-      defaultSortBy: freezed == defaultSortBy
+      defaultSortBy: null == defaultSortBy
           ? _value._defaultSortBy
           : defaultSortBy // ignore: cast_nullable_to_non_nullable
-              as Map<String, SortOrder>?,
+              as Map<String, SortOrder>,
     ));
   }
 }
@@ -172,7 +172,8 @@ class _$PaginateConfigImpl implements _PaginateConfig {
       final Map<String, Set<Type>> filterableColumns = const {},
       this.maxLimit = _defaultMaxLimit,
       this.defaultLimit = _defaultDefaultLimit,
-      @JsonKey(fromJson: _defaultSortByFromJson) final Map<String, SortOrder>? defaultSortBy})
+      @JsonKey(fromJson: _defaultSortByFromJson)
+      final Map<String, SortOrder> defaultSortBy = const {}})
       : _sortableColumns = sortableColumns,
         _filterableColumns = filterableColumns,
         _defaultSortBy = defaultSortBy;
@@ -228,17 +229,15 @@ class _$PaginateConfigImpl implements _PaginateConfig {
   final int defaultLimit;
 
   /// The default sorts applied when no sorts are configured in a controller.
-  final Map<String, SortOrder>? _defaultSortBy;
+  final Map<String, SortOrder> _defaultSortBy;
 
   /// The default sorts applied when no sorts are configured in a controller.
   @override
   @JsonKey(fromJson: _defaultSortByFromJson)
-  Map<String, SortOrder>? get defaultSortBy {
-    final value = _defaultSortBy;
-    if (value == null) return null;
+  Map<String, SortOrder> get defaultSortBy {
     if (_defaultSortBy is EqualUnmodifiableMapView) return _defaultSortBy;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(value);
+    return EqualUnmodifiableMapView(_defaultSortBy);
   }
 
   @override
@@ -282,7 +281,7 @@ abstract class _PaginateConfig implements PaginateConfig {
       final int maxLimit,
       final int defaultLimit,
       @JsonKey(fromJson: _defaultSortByFromJson)
-      final Map<String, SortOrder>? defaultSortBy}) = _$PaginateConfigImpl;
+      final Map<String, SortOrder> defaultSortBy}) = _$PaginateConfigImpl;
 
   factory _PaginateConfig.fromJson(Map<String, dynamic> json) = _$PaginateConfigImpl.fromJson;
 
@@ -315,7 +314,7 @@ abstract class _PaginateConfig implements PaginateConfig {
 
   /// The default sorts applied when no sorts are configured in a controller.
   @JsonKey(fromJson: _defaultSortByFromJson)
-  Map<String, SortOrder>? get defaultSortBy;
+  Map<String, SortOrder> get defaultSortBy;
   @override
   @JsonKey(ignore: true)
   _$$PaginateConfigImplCopyWith<_$PaginateConfigImpl> get copyWith =>
