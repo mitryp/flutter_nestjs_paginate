@@ -14,7 +14,7 @@ _$PaginateConfigImpl _$$PaginateConfigImplFromJson(Map<String, dynamic> json) =>
       filterableColumns: json['filterableColumns'] == null
           ? const {}
           : _filterableColumnsFromJson(json['filterableColumns'] as Map<String, dynamic>),
-      maxLimit: json['maxLimit'] as int? ?? 100,
-      defaultLimit: json['defaultLimit'] as int? ?? 20,
+      maxLimit: json['maxLimit'] as int? ?? _defaultMaxLimit,
+      defaultLimit: json['defaultLimit'] as int? ?? _defaultDefaultLimit,
       defaultSortBy: _defaultSortByFromJson(json['defaultSortBy'] as List),
     );

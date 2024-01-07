@@ -20,9 +20,16 @@ PaginatedMetadata _$PaginatedMetadataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PaginatedMetadata {
+  /// The maximum amount of items per page.
   int get itemsPerPage => throw _privateConstructorUsedError;
+
+  /// The total amount of items matching the related query before pagination.
   int get totalItems => throw _privateConstructorUsedError;
+
+  /// The page of this request.
   int get currentPage => throw _privateConstructorUsedError;
+
+  /// The total amount of pages matching the related query before pagination.
   int get totalPages => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -137,12 +144,19 @@ class _$PaginatedMetadataImpl implements _PaginatedMetadata {
   factory _$PaginatedMetadataImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaginatedMetadataImplFromJson(json);
 
+  /// The maximum amount of items per page.
   @override
   final int itemsPerPage;
+
+  /// The total amount of items matching the related query before pagination.
   @override
   final int totalItems;
+
+  /// The page of this request.
   @override
   final int currentPage;
+
+  /// The total amount of pages matching the related query before pagination.
   @override
   final int totalPages;
 
@@ -152,7 +166,7 @@ class _$PaginatedMetadataImpl implements _PaginatedMetadata {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaginatedMetadataImpl &&
@@ -190,12 +204,20 @@ abstract class _PaginatedMetadata implements PaginatedMetadata {
   factory _PaginatedMetadata.fromJson(Map<String, dynamic> json) = _$PaginatedMetadataImpl.fromJson;
 
   @override
+
+  /// The maximum amount of items per page.
   int get itemsPerPage;
   @override
+
+  /// The total amount of items matching the related query before pagination.
   int get totalItems;
   @override
+
+  /// The page of this request.
   int get currentPage;
   @override
+
+  /// The total amount of pages matching the related query before pagination.
   int get totalPages;
   @override
   @JsonKey(ignore: true)

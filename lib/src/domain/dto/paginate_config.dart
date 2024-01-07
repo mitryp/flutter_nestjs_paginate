@@ -11,6 +11,9 @@ part 'paginate_config.freezed.dart';
 
 part 'paginate_config.g.dart';
 
+const _defaultMaxLimit = 100;
+const _defaultDefaultLimit = 20;
+
 /// A class mirroring the client-facing side of PaginateConfig of `nestjs-paginate`.
 ///
 /// It omits backend- and database-specific fields, while preserving those needed on the frontend.
@@ -36,10 +39,10 @@ class PaginateConfig with _$PaginateConfig {
 
     /// A maximum limit accepted by the server.
     /// A controller will not increase its limit over this value.
-    @Default(100) int maxLimit,
+    @Default(_defaultMaxLimit) int maxLimit,
 
     /// A limit to be set by default.
-    @Default(20) int defaultLimit,
+    @Default(_defaultDefaultLimit) int defaultLimit,
 
     /// The default sorts applied when no sorts are configured in a controller.
     @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder>? defaultSortBy,

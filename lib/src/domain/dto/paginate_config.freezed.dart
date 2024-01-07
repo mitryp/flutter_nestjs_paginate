@@ -20,12 +20,28 @@ PaginateConfig _$PaginateConfigFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$PaginateConfig {
+  /// A set of columns allowed to be used in sorts.
+  ///
+  /// If strict validation is enabled, adding a sort with the column not in the set will cause
+  /// StateError. Otherwise, the sort will be ignored unless validation is disabled.
   @JsonKey(fromJson: _sortableColumnsFromJson)
   Set<String> get sortableColumns => throw _privateConstructorUsedError;
+
+  /// A set of columns allowed for filtering by.
+  ///
+  /// If strict validation is enabled, adding a filter with the column not in the set will cause
+  /// StateError. Otherwise, the filter will be ignored unless validation is disabled.
   @JsonKey(fromJson: _filterableColumnsFromJson)
   Map<String, Set<Type>> get filterableColumns => throw _privateConstructorUsedError;
+
+  /// A maximum limit accepted by the server.
+  /// A controller will not increase its limit over this value.
   int get maxLimit => throw _privateConstructorUsedError;
+
+  /// A limit to be set by default.
   int get defaultLimit => throw _privateConstructorUsedError;
+
+  /// The default sorts applied when no sorts are configured in a controller.
   @JsonKey(fromJson: _defaultSortByFromJson)
   Map<String, SortOrder>? get defaultSortBy => throw _privateConstructorUsedError;
 
@@ -154,8 +170,8 @@ class _$PaginateConfigImpl implements _PaginateConfig {
       {@JsonKey(fromJson: _sortableColumnsFromJson) final Set<String> sortableColumns = const {},
       @JsonKey(fromJson: _filterableColumnsFromJson)
       final Map<String, Set<Type>> filterableColumns = const {},
-      this.maxLimit = 100,
-      this.defaultLimit = 20,
+      this.maxLimit = _defaultMaxLimit,
+      this.defaultLimit = _defaultDefaultLimit,
       @JsonKey(fromJson: _defaultSortByFromJson) final Map<String, SortOrder>? defaultSortBy})
       : _sortableColumns = sortableColumns,
         _filterableColumns = filterableColumns,
@@ -164,7 +180,16 @@ class _$PaginateConfigImpl implements _PaginateConfig {
   factory _$PaginateConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaginateConfigImplFromJson(json);
 
+  /// A set of columns allowed to be used in sorts.
+  ///
+  /// If strict validation is enabled, adding a sort with the column not in the set will cause
+  /// StateError. Otherwise, the sort will be ignored unless validation is disabled.
   final Set<String> _sortableColumns;
+
+  /// A set of columns allowed to be used in sorts.
+  ///
+  /// If strict validation is enabled, adding a sort with the column not in the set will cause
+  /// StateError. Otherwise, the sort will be ignored unless validation is disabled.
   @override
   @JsonKey(fromJson: _sortableColumnsFromJson)
   Set<String> get sortableColumns {
@@ -173,7 +198,16 @@ class _$PaginateConfigImpl implements _PaginateConfig {
     return EqualUnmodifiableSetView(_sortableColumns);
   }
 
+  /// A set of columns allowed for filtering by.
+  ///
+  /// If strict validation is enabled, adding a filter with the column not in the set will cause
+  /// StateError. Otherwise, the filter will be ignored unless validation is disabled.
   final Map<String, Set<Type>> _filterableColumns;
+
+  /// A set of columns allowed for filtering by.
+  ///
+  /// If strict validation is enabled, adding a filter with the column not in the set will cause
+  /// StateError. Otherwise, the filter will be ignored unless validation is disabled.
   @override
   @JsonKey(fromJson: _filterableColumnsFromJson)
   Map<String, Set<Type>> get filterableColumns {
@@ -182,13 +216,21 @@ class _$PaginateConfigImpl implements _PaginateConfig {
     return EqualUnmodifiableMapView(_filterableColumns);
   }
 
+  /// A maximum limit accepted by the server.
+  /// A controller will not increase its limit over this value.
   @override
   @JsonKey()
   final int maxLimit;
+
+  /// A limit to be set by default.
   @override
   @JsonKey()
   final int defaultLimit;
+
+  /// The default sorts applied when no sorts are configured in a controller.
   final Map<String, SortOrder>? _defaultSortBy;
+
+  /// The default sorts applied when no sorts are configured in a controller.
   @override
   @JsonKey(fromJson: _defaultSortByFromJson)
   Map<String, SortOrder>? get defaultSortBy {
@@ -205,7 +247,7 @@ class _$PaginateConfigImpl implements _PaginateConfig {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaginateConfigImpl &&
@@ -245,16 +287,33 @@ abstract class _PaginateConfig implements PaginateConfig {
   factory _PaginateConfig.fromJson(Map<String, dynamic> json) = _$PaginateConfigImpl.fromJson;
 
   @override
+
+  /// A set of columns allowed to be used in sorts.
+  ///
+  /// If strict validation is enabled, adding a sort with the column not in the set will cause
+  /// StateError. Otherwise, the sort will be ignored unless validation is disabled.
   @JsonKey(fromJson: _sortableColumnsFromJson)
   Set<String> get sortableColumns;
   @override
+
+  /// A set of columns allowed for filtering by.
+  ///
+  /// If strict validation is enabled, adding a filter with the column not in the set will cause
+  /// StateError. Otherwise, the filter will be ignored unless validation is disabled.
   @JsonKey(fromJson: _filterableColumnsFromJson)
   Map<String, Set<Type>> get filterableColumns;
   @override
+
+  /// A maximum limit accepted by the server.
+  /// A controller will not increase its limit over this value.
   int get maxLimit;
   @override
+
+  /// A limit to be set by default.
   int get defaultLimit;
   @override
+
+  /// The default sorts applied when no sorts are configured in a controller.
   @JsonKey(fromJson: _defaultSortByFromJson)
   Map<String, SortOrder>? get defaultSortBy;
   @override
