@@ -300,6 +300,11 @@ void main() {
 
         controller.limit = controller.limit;
         expect(controller.didNotify, isFalse);
+
+        // the limit should be set to the maxLimit if the value exceeds it
+        controller.limit = controller.paginateConfig.maxLimit + 10;
+        expect(controller.notificationCount, equals(1));
+        expect(controller.limit, equals(controller.paginateConfig.maxLimit));
       });
 
       test('Search changes and notifies correctly', () {
@@ -476,23 +481,63 @@ void main() {
     const filterableColumn2 = 'name';
     const sortableColumn1 = filterableColumn1;
     const sortableColumn2 = filterableColumn2;
+    const sort1 = SortOrder.asc;
+    const sort2 = SortOrder.desc;
+    const filter1 = Eq(10);
+    const filter2 = Btw(1, 20);
 
-    final controller = PaginationController(
-      strictValidation: true,
-      paginateConfig: const PaginateConfig(
-        filterableColumns: {
-          filterableColumn1: {Eq, Lt, Gt},
-          filterableColumn2: {Eq, Ilike},
-        },
-        sortableColumns: {
-          sortableColumn1,
-          sortableColumn2,
-        },
-      ),
-    );
+    const page = 10;
+    const limit = 70;
+    final search = 'a' * 10;
+
+    final controller = PaginationController(validateColumns: false);
+
+    controller
+      ..page = page
+      ..limit = limit
+      ..search = search
+      ..addSort(sortableColumn1, sort1)
+      ..addSort(sortableColumn2, sort2)
+      ..addFilter(filterableColumn1, filter1)
+      ..addFilter(filterableColumn1, filter2)
+      ..addFilter(filterableColumn2, filter2);
+
+    final map = controller.toMap();
+
+    test('Map is generated correctly', () {
+      expect(map, hasLength(6));
+      expect(map['page'], equals(page));
+      expect(map['limit'], equals(limit));
+      expect(map['search'], equals(search));
+      expect(
+        map['filter.$filterableColumn1'],
+        allOf(
+          isA<List<String>>(),
+          hasLength(2),
+          containsAll([filter1, filter2].map((e) => e.toString())),
+        ),
+      );
+      expect(
+        map['filter.$filterableColumn2'],
+        allOf(
+          isA<List<String>>(),
+          hasLength(1),
+          containsAll([filter2].map((e) => e.toString())),
+        ),
+      );
+      expect(
+        map['sortBy'],
+        allOf(
+          isA<List<String>>(),
+          hasLength(2),
+          containsAll([
+            '$sortableColumn1:${sort1.name.toUpperCase()}',
+            '$sortableColumn2:${sort2.name.toUpperCase()}',
+          ]),
+        ),
+      );
+    });
   });
-
-  // todo validation tests
 }
 
 class _ExposedController extends PaginationControllerImpl {
