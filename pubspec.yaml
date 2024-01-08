@@ -1,11 +1,12 @@
 name: flutter_nestjs_paginate
-description: "A library providing a controllable paginated view builder compatible with `nestjs-paginate`"
-version: 0.0.1
+description: "A library providing a reactive paginated view builder compatible with `nestjs-paginate`"
+version: 1.0.0
 homepage: https://github.com/mitryp/flutter_nestjs_paginate
+issue_tracker: https://github.com/mitryp/flutter_nestjs_paginate/issues
 
 environment:
   sdk: '>=3.0.0 <4.0.0'
-  flutter: ">=1.17.0"
+  flutter: ">=1.10.0"
 
 dependencies:
   flutter:
