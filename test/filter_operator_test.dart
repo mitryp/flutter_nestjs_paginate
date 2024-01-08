@@ -58,7 +58,9 @@ void main() {
       () => repeat(
         times: testRuns,
         () => _testOperator(
-            (arg) => Gt(arg, orEqual: true), (arg) => '\$gte:$arg'),
+          (arg) => Gt(arg, orEqual: true),
+          (arg) => '\$gte:$arg',
+        ),
       ),
     );
 
@@ -77,7 +79,9 @@ void main() {
       () => repeat(
         times: testRuns,
         () => _testOperator(
-            (arg) => Lt(arg, orEqual: true), (arg) => '\$lte:$arg'),
+          (arg) => Lt(arg, orEqual: true),
+          (arg) => '\$lte:$arg',
+        ),
       ),
     );
 
@@ -87,7 +91,9 @@ void main() {
       () => repeat(
         times: testRuns,
         () => _testOperator(
-            (arg) => Btw(arg, arg + 50), (arg) => '\$btw:$arg,${arg + 50}'),
+          (arg) => Btw(arg, arg + 50),
+          (arg) => '\$btw:$arg,${arg + 50}',
+        ),
       ),
     );
 
@@ -106,7 +112,9 @@ void main() {
       () => repeat(
         times: testRuns,
         () => _testOperator(
-            (arg) => Sw('$arg' * 10), (arg) => '\$sw:${'$arg' * 10}'),
+          (arg) => Sw('$arg' * 10),
+          (arg) => '\$sw:${'$arg' * 10}',
+        ),
       ),
     );
 
@@ -149,34 +157,46 @@ void main() {
 
   group('FilterOperators match the examples', () {
     // $eq:Milo
-    test('Eq(\'Milo\')',
-        () => expect(const Eq('Milo').toString(), equals('\$eq:Milo')));
+    test(
+      'Eq(\'Milo\')',
+      () => expect(const Eq('Milo').toString(), equals('\$eq:Milo')),
+    );
 
     // $btw:4,6
-    test('Btw(4,6)',
-        () => expect(const Btw(4, 6).toString(), equals('\$btw:4,6')));
+    test(
+      'Btw(4,6)',
+      () => expect(const Btw(4, 6).toString(), equals('\$btw:4,6')),
+    );
 
     // $not:$in:2,5,7
     test(
       'Not(In([2,5,7]))',
       () => expect(
-          const Not(In([2, 5, 7])).toString(), equals('\$not:\$in:2,5,7')),
+        const Not(In([2, 5, 7])).toString(),
+        equals('\$not:\$in:2,5,7'),
+      ),
     );
 
     // $not:$ilike:term
     test(
       'Not(Ilike(\'term\'))',
       () => expect(
-          const Not(Ilike('term')).toString(), equals('\$not:\$ilike:term')),
+        const Not(Ilike('term')).toString(),
+        equals('\$not:\$ilike:term'),
+      ),
     );
 
     // $sw:term
-    test('Sw(\'term\')',
-        () => expect(const Sw('term').toString(), equals('\$sw:term')));
+    test(
+      'Sw(\'term\')',
+      () => expect(const Sw('term').toString(), equals('\$sw:term')),
+    );
 
     // $not:$null
-    test('Not(Null())',
-        () => expect(const Not(Null()).toString(), equals('\$not:\$null')));
+    test(
+      'Not(Null())',
+      () => expect(const Not(Null()).toString(), equals('\$not:\$null')),
+    );
 
     // $btw:2022-02-02,2022-02-10
     test(

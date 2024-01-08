@@ -72,7 +72,8 @@ Set<String> _sortableColumnsFromJson(List<dynamic> value) =>
     value.cast<String>().toSet();
 
 Map<String, Set<Type>> _filterableColumnsFromJson(
-        Map<String, dynamic> filters) =>
+  Map<String, dynamic> filters,
+) =>
     filters.map(
       (field, value) {
         final List operators;

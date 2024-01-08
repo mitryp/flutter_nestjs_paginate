@@ -50,7 +50,7 @@ abstract class FilterOperator {
     Ilike,
     Sw,
     Contains,
-    Or
+    Or,
   };
 
   /// A text representation of this operator.

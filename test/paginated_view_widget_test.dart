@@ -20,8 +20,11 @@ Future<Paginated<int>> _fetcher(int limit, int page) async {
   );
 }
 
-Future<Paginated<int>> _delayedFetcher(int limit, int page,
-        {required Duration delay}) =>
+Future<Paginated<int>> _delayedFetcher(
+  int limit,
+  int page, {
+  required Duration delay,
+}) =>
     Future.delayed(delay, () => _fetcher(limit, page));
 
 Future<Paginated<int>> _errorFetcher() =>
@@ -55,7 +58,7 @@ void main() {
               viewBuilder: (context, data) => Column(
                 key: viewKey,
                 children: [
-                  ...data.data.map((e) => Text('$e', key: ValueKey(e)))
+                  ...data.data.map((e) => Text('$e', key: ValueKey(e))),
                 ],
               ),
               loadingIndicator: (context) =>
@@ -93,7 +96,7 @@ void main() {
               viewBuilder: (context, data) => Column(
                 key: viewKey,
                 children: [
-                  ...data.data.map((e) => Text('$e', key: ValueKey(e)))
+                  ...data.data.map((e) => Text('$e', key: ValueKey(e))),
                 ],
               ),
               loadingIndicator: (context) =>

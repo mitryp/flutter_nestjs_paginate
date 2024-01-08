@@ -137,8 +137,10 @@ void main() {
     test(
       'Non-strict Controller does nothing when adding a sort by a not allowed field',
       () {
-        expect(() => controller.addSort('${sortableColumn}a', SortOrder.asc),
-            returnsNormally);
+        expect(
+          () => controller.addSort('${sortableColumn}a', SortOrder.asc),
+          returnsNormally,
+        );
         expect(controller.sorts, isEmpty);
       },
     );
@@ -147,8 +149,10 @@ void main() {
       'Non-strict Controller does nothing when adding a filter '
       'by a not allowed field and an allowed operator',
       () {
-        expect(() => controller.addFilter(sortableColumn, const Eq(1)),
-            returnsNormally);
+        expect(
+          () => controller.addFilter(sortableColumn, const Eq(1)),
+          returnsNormally,
+        );
         expect(controller.filters, isEmpty);
       },
     );
@@ -157,8 +161,10 @@ void main() {
       'Non-strict Controller does nothing when adding a filter '
       'by an allowed field and a not allowed operator',
       () {
-        expect(() => controller.addFilter(sortableColumn, const Lt(1)),
-            returnsNormally);
+        expect(
+          () => controller.addFilter(sortableColumn, const Lt(1)),
+          returnsNormally,
+        );
         expect(controller.filters, isEmpty);
       },
     );
@@ -237,7 +243,9 @@ void main() {
         const op = Lt(1);
 
         expect(
-            () => controller.addFilter(filterableColumn, op), returnsNormally);
+          () => controller.addFilter(filterableColumn, op),
+          returnsNormally,
+        );
         expect(
           controller.filters,
           allOf(
@@ -334,7 +342,9 @@ void main() {
         expect(controller.notificationCount, equals(1));
         expect(controller.filters, hasLength(1));
         expect(
-            controller.filters[testFilterName1], equals({testFilterOperator}));
+          controller.filters[testFilterName1],
+          equals({testFilterOperator}),
+        );
 
         controller.resetNotificationCounter();
 
@@ -347,7 +357,9 @@ void main() {
         expect(controller.notificationCount, equals(1));
         expect(controller.filters, hasLength(2));
         expect(
-            controller.filters[testFilterName2], equals({testFilterOperator2}));
+          controller.filters[testFilterName2],
+          equals({testFilterOperator2}),
+        );
 
         controller.removeFilter(testFilterName2);
       });
