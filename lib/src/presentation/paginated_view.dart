@@ -62,7 +62,7 @@ class PaginatedView<TModel> extends StatefulWidget {
   /// It is used when the [fetcher] throws an error.
   final ErrorBuilder errorBuilder;
 
-  /// A widget that ish shown when the data from fetcher is being loaded.
+  /// A widget that is shown when the data from the fetcher is being loaded.
   final WidgetBuilder loadingIndicator;
 
   /// A function that takes [QueryParams] built by the controller and [BuildContext] and returns
