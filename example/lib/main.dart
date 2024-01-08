@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_nestjs_paginate/flutter_nestjs_paginate.dart';
 import 'package:flutter_nestjs_paginate_example/cities_view.dart';
-import 'package:flutter_nestjs_paginate_example/dto.dart';
-import 'fetcher.dart';
+
 import 'error_widget.dart';
+import 'fetcher.dart';
 
 void main() => runApp(const FlutterNestjsPaginateExample());
 
