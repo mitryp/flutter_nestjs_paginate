@@ -1,4 +1,7 @@
 # flutter_nestjs_paginate
+[![Dart Tests](https://github.com/mitryp/flutter_nestjs_paginate/actions/workflows/dart.yml/badge.svg)](https://github.com/mitryp/flutter_nestjs_paginate/actions/workflows/dart.yml?branch=master)
+[![Pub package](https://img.shields.io/pub/v/flutter_nestjs_paginate.svg)](https://pub.dev/packages/flutter_nestjs_paginate)
+[![Package publisher](https://img.shields.io/pub/publisher/flutter_nestjs_paginate.svg)](https://pub.dev/packages/flutter_nestjs_paginate/publisher)
 
 A library providing a base for building controllable paginated views powered by [`nestjs-paginate`](https://www.npmjs.com/package/nestjs-paginate) on the backend.
 
