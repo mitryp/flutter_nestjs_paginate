@@ -138,14 +138,17 @@ abstract interface class PaginationController with ChangeNotifier {
   /// All operations must be performed inside the provided function.
   ///
   /// If [notifyAfter] is set to true, listeners will be notified after the function is executed.
-  void silently(void Function(PaginationController controller) fn, {bool notifyAfter});
+  void silently(void Function(PaginationController controller) fn,
+      {bool notifyAfter});
 
   /// Creates a [QueryParams] map from the parameters of this [PaginationController].
   QueryParams toMap();
 }
 
 @visibleForTesting
-class PaginationControllerImpl with ChangeNotifier implements PaginationController {
+class PaginationControllerImpl
+    with ChangeNotifier
+    implements PaginationController {
   /// Whether this controller should validate the columns used in [addSort] and [addFilter].
   final bool _validateColumns;
 
@@ -236,8 +239,8 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
   }
 
   @override
-  Map<String, Set<FilterOperator>> get filters =>
-      UnmodifiableMapView(_filters.map((key, value) => MapEntry(key, UnmodifiableSetView(value))));
+  Map<String, Set<FilterOperator>> get filters => UnmodifiableMapView(
+      _filters.map((key, value) => MapEntry(key, UnmodifiableSetView(value))));
 
   @override
   void addFilter(String field, FilterOperator operator) {
@@ -286,7 +289,8 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
   }
 
   @override
-  void silently(void Function(PaginationController controller) fn, {bool notifyAfter = false}) {
+  void silently(void Function(PaginationController controller) fn,
+      {bool notifyAfter = false}) {
     doesNotify = false;
 
     fn(this);
@@ -308,8 +312,8 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
             .map((e) => '${e.key}:${e.value.name.toUpperCase()}')
             .toList(growable: false),
       ...(_filters..removeWhere((key, value) => value.isEmpty)).map(
-        (field, operators) =>
-            MapEntry('filter.$field', operators.map((op) => '$op').toList(growable: false)),
+        (field, operators) => MapEntry('filter.$field',
+            operators.map((op) => '$op').toList(growable: false)),
       ),
     };
   }
@@ -350,13 +354,15 @@ class PaginationControllerImpl with ChangeNotifier implements PaginationControll
       return false;
     }
 
-    throw StateError('Sort by $column is not allowed by PaginationController configuration.');
+    throw StateError(
+        'Sort by $column is not allowed by PaginationController configuration.');
   }
 
   bool _isFilterValid(String column, FilterOperator operator) {
     final filterableColumns = paginateConfig.filterableColumns;
 
-    if (!_validateColumns || (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
+    if (!_validateColumns ||
+        (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
       return true;
     }
 

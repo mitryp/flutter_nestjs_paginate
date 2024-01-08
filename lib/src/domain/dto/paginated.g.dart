@@ -6,7 +6,8 @@ part of 'paginated.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$PaginatedMetadataImpl _$$PaginatedMetadataImplFromJson(Map<String, dynamic> json) =>
+_$PaginatedMetadataImpl _$$PaginatedMetadataImplFromJson(
+        Map<String, dynamic> json) =>
     _$PaginatedMetadataImpl(
       itemsPerPage: json['itemsPerPage'] as int,
       totalItems: json['totalItems'] as int,
@@ -14,7 +15,8 @@ _$PaginatedMetadataImpl _$$PaginatedMetadataImplFromJson(Map<String, dynamic> js
       totalPages: json['totalPages'] as int,
     );
 
-Map<String, dynamic> _$$PaginatedMetadataImplToJson(_$PaginatedMetadataImpl instance) =>
+Map<String, dynamic> _$$PaginatedMetadataImplToJson(
+        _$PaginatedMetadataImpl instance) =>
     <String, dynamic>{
       'itemsPerPage': instance.itemsPerPage,
       'totalItems': instance.totalItems,

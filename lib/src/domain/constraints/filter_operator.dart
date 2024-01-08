@@ -39,7 +39,19 @@ abstract class FilterOperator {
   static Iterable<String> get representations => representationToType.keys;
 
   /// An iterable of types of all supported operators.
-  static const Iterable<Type> all = {Eq, Not, Null, In, Gt, Lt, Btw, Ilike, Sw, Contains, Or};
+  static const Iterable<Type> all = {
+    Eq,
+    Not,
+    Null,
+    In,
+    Gt,
+    Lt,
+    Btw,
+    Ilike,
+    Sw,
+    Contains,
+    Or
+  };
 
   /// A text representation of this operator.
   /// Should not start with $, as it is inserted by the [toString].

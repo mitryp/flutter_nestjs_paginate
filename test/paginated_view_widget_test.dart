@@ -20,10 +20,12 @@ Future<Paginated<int>> _fetcher(int limit, int page) async {
   );
 }
 
-Future<Paginated<int>> _delayedFetcher(int limit, int page, {required Duration delay}) =>
+Future<Paginated<int>> _delayedFetcher(int limit, int page,
+        {required Duration delay}) =>
     Future.delayed(delay, () => _fetcher(limit, page));
 
-Future<Paginated<int>> _errorFetcher() => Future(() => throw StateError('Test error'));
+Future<Paginated<int>> _errorFetcher() =>
+    Future(() => throw StateError('Test error'));
 
 void main() {
   const progressIndicatorKey = ValueKey('progressIndicator');
@@ -52,7 +54,9 @@ void main() {
               controller: controller,
               viewBuilder: (context, data) => Column(
                 key: viewKey,
-                children: [...data.data.map((e) => Text('$e', key: ValueKey(e)))],
+                children: [
+                  ...data.data.map((e) => Text('$e', key: ValueKey(e)))
+                ],
               ),
               loadingIndicator: (context) =>
                   const CircularProgressIndicator(key: progressIndicatorKey),
@@ -88,7 +92,9 @@ void main() {
               controller: controller,
               viewBuilder: (context, data) => Column(
                 key: viewKey,
-                children: [...data.data.map((e) => Text('$e', key: ValueKey(e)))],
+                children: [
+                  ...data.data.map((e) => Text('$e', key: ValueKey(e)))
+                ],
               ),
               loadingIndicator: (context) =>
                   const CircularProgressIndicator(key: progressIndicatorKey),

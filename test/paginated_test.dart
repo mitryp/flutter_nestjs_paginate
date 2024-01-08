@@ -47,7 +47,8 @@ final _metaMatcher = PaginatedMetadata(
 
 void main() => group('Paginated DTO tests', () {
       test('Paginated<CityDto> is deserialized correctly', () {
-        final deserialized = Paginated.fromJson(_paginatedJson, CityDto.fromJson);
+        final deserialized =
+            Paginated.fromJson(_paginatedJson, CityDto.fromJson);
 
         expect(deserialized.data, equals(_data));
         expect(deserialized.meta, equals(_metaMatcher));

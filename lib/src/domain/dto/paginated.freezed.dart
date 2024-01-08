@@ -34,7 +34,8 @@ mixin _$PaginatedMetadata {
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $PaginatedMetadataCopyWith<PaginatedMetadata> get copyWith => throw _privateConstructorUsedError;
+  $PaginatedMetadataCopyWith<PaginatedMetadata> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -43,7 +44,8 @@ abstract class $PaginatedMetadataCopyWith<$Res> {
           PaginatedMetadata value, $Res Function(PaginatedMetadata) then) =
       _$PaginatedMetadataCopyWithImpl<$Res, PaginatedMetadata>;
   @useResult
-  $Res call({int itemsPerPage, int totalItems, int currentPage, int totalPages});
+  $Res call(
+      {int itemsPerPage, int totalItems, int currentPage, int totalPages});
 }
 
 /// @nodoc
@@ -86,21 +88,23 @@ class _$PaginatedMetadataCopyWithImpl<$Res, $Val extends PaginatedMetadata>
 }
 
 /// @nodoc
-abstract class _$$PaginatedMetadataImplCopyWith<$Res> implements $PaginatedMetadataCopyWith<$Res> {
-  factory _$$PaginatedMetadataImplCopyWith(
-          _$PaginatedMetadataImpl value, $Res Function(_$PaginatedMetadataImpl) then) =
+abstract class _$$PaginatedMetadataImplCopyWith<$Res>
+    implements $PaginatedMetadataCopyWith<$Res> {
+  factory _$$PaginatedMetadataImplCopyWith(_$PaginatedMetadataImpl value,
+          $Res Function(_$PaginatedMetadataImpl) then) =
       __$$PaginatedMetadataImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int itemsPerPage, int totalItems, int currentPage, int totalPages});
+  $Res call(
+      {int itemsPerPage, int totalItems, int currentPage, int totalPages});
 }
 
 /// @nodoc
 class __$$PaginatedMetadataImplCopyWithImpl<$Res>
     extends _$PaginatedMetadataCopyWithImpl<$Res, _$PaginatedMetadataImpl>
     implements _$$PaginatedMetadataImplCopyWith<$Res> {
-  __$$PaginatedMetadataImplCopyWithImpl(
-      _$PaginatedMetadataImpl _value, $Res Function(_$PaginatedMetadataImpl) _then)
+  __$$PaginatedMetadataImplCopyWithImpl(_$PaginatedMetadataImpl _value,
+      $Res Function(_$PaginatedMetadataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -170,21 +174,27 @@ class _$PaginatedMetadataImpl implements _PaginatedMetadata {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaginatedMetadataImpl &&
-            (identical(other.itemsPerPage, itemsPerPage) || other.itemsPerPage == itemsPerPage) &&
-            (identical(other.totalItems, totalItems) || other.totalItems == totalItems) &&
-            (identical(other.currentPage, currentPage) || other.currentPage == currentPage) &&
-            (identical(other.totalPages, totalPages) || other.totalPages == totalPages));
+            (identical(other.itemsPerPage, itemsPerPage) ||
+                other.itemsPerPage == itemsPerPage) &&
+            (identical(other.totalItems, totalItems) ||
+                other.totalItems == totalItems) &&
+            (identical(other.currentPage, currentPage) ||
+                other.currentPage == currentPage) &&
+            (identical(other.totalPages, totalPages) ||
+                other.totalPages == totalPages));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, itemsPerPage, totalItems, currentPage, totalPages);
+  int get hashCode => Object.hash(
+      runtimeType, itemsPerPage, totalItems, currentPage, totalPages);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
   _$$PaginatedMetadataImplCopyWith<_$PaginatedMetadataImpl> get copyWith =>
-      __$$PaginatedMetadataImplCopyWithImpl<_$PaginatedMetadataImpl>(this, _$identity);
+      __$$PaginatedMetadataImplCopyWithImpl<_$PaginatedMetadataImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
@@ -201,7 +211,8 @@ abstract class _PaginatedMetadata implements PaginatedMetadata {
       required final int currentPage,
       required final int totalPages}) = _$PaginatedMetadataImpl;
 
-  factory _PaginatedMetadata.fromJson(Map<String, dynamic> json) = _$PaginatedMetadataImpl.fromJson;
+  factory _PaginatedMetadata.fromJson(Map<String, dynamic> json) =
+      _$PaginatedMetadataImpl.fromJson;
 
   @override
 

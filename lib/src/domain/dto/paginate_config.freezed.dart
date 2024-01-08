@@ -32,7 +32,8 @@ mixin _$PaginateConfig {
   /// If strict validation is enabled, adding a filter with the column not in the set will cause
   /// StateError. Otherwise, the filter will be ignored unless validation is disabled.
   @JsonKey(fromJson: _filterableColumnsFromJson)
-  Map<String, Set<Type>> get filterableColumns => throw _privateConstructorUsedError;
+  Map<String, Set<Type>> get filterableColumns =>
+      throw _privateConstructorUsedError;
 
   /// A maximum limit accepted by the server.
   /// A controller will not increase its limit over this value.
@@ -43,23 +44,28 @@ mixin _$PaginateConfig {
 
   /// The default sorts applied when no sorts are configured in a controller.
   @JsonKey(fromJson: _defaultSortByFromJson)
-  Map<String, SortOrder> get defaultSortBy => throw _privateConstructorUsedError;
+  Map<String, SortOrder> get defaultSortBy =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $PaginateConfigCopyWith<PaginateConfig> get copyWith => throw _privateConstructorUsedError;
+  $PaginateConfigCopyWith<PaginateConfig> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $PaginateConfigCopyWith<$Res> {
-  factory $PaginateConfigCopyWith(PaginateConfig value, $Res Function(PaginateConfig) then) =
+  factory $PaginateConfigCopyWith(
+          PaginateConfig value, $Res Function(PaginateConfig) then) =
       _$PaginateConfigCopyWithImpl<$Res, PaginateConfig>;
   @useResult
   $Res call(
       {@JsonKey(fromJson: _sortableColumnsFromJson) Set<String> sortableColumns,
-      @JsonKey(fromJson: _filterableColumnsFromJson) Map<String, Set<Type>> filterableColumns,
+      @JsonKey(fromJson: _filterableColumnsFromJson)
+      Map<String, Set<Type>> filterableColumns,
       int maxLimit,
       int defaultLimit,
-      @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder> defaultSortBy});
+      @JsonKey(fromJson: _defaultSortByFromJson)
+      Map<String, SortOrder> defaultSortBy});
 }
 
 /// @nodoc
@@ -107,18 +113,21 @@ class _$PaginateConfigCopyWithImpl<$Res, $Val extends PaginateConfig>
 }
 
 /// @nodoc
-abstract class _$$PaginateConfigImplCopyWith<$Res> implements $PaginateConfigCopyWith<$Res> {
-  factory _$$PaginateConfigImplCopyWith(
-          _$PaginateConfigImpl value, $Res Function(_$PaginateConfigImpl) then) =
+abstract class _$$PaginateConfigImplCopyWith<$Res>
+    implements $PaginateConfigCopyWith<$Res> {
+  factory _$$PaginateConfigImplCopyWith(_$PaginateConfigImpl value,
+          $Res Function(_$PaginateConfigImpl) then) =
       __$$PaginateConfigImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
       {@JsonKey(fromJson: _sortableColumnsFromJson) Set<String> sortableColumns,
-      @JsonKey(fromJson: _filterableColumnsFromJson) Map<String, Set<Type>> filterableColumns,
+      @JsonKey(fromJson: _filterableColumnsFromJson)
+      Map<String, Set<Type>> filterableColumns,
       int maxLimit,
       int defaultLimit,
-      @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder> defaultSortBy});
+      @JsonKey(fromJson: _defaultSortByFromJson)
+      Map<String, SortOrder> defaultSortBy});
 }
 
 /// @nodoc
@@ -167,7 +176,8 @@ class __$$PaginateConfigImplCopyWithImpl<$Res>
 @JsonSerializable(createToJson: false)
 class _$PaginateConfigImpl implements _PaginateConfig {
   const _$PaginateConfigImpl(
-      {@JsonKey(fromJson: _sortableColumnsFromJson) final Set<String> sortableColumns = const {},
+      {@JsonKey(fromJson: _sortableColumnsFromJson)
+      final Set<String> sortableColumns = const {},
       @JsonKey(fromJson: _filterableColumnsFromJson)
       final Map<String, Set<Type>> filterableColumns = const {},
       this.maxLimit = _defaultMaxLimit,
@@ -212,7 +222,8 @@ class _$PaginateConfigImpl implements _PaginateConfig {
   @override
   @JsonKey(fromJson: _filterableColumnsFromJson)
   Map<String, Set<Type>> get filterableColumns {
-    if (_filterableColumns is EqualUnmodifiableMapView) return _filterableColumns;
+    if (_filterableColumns is EqualUnmodifiableMapView)
+      return _filterableColumns;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableMapView(_filterableColumns);
   }
@@ -250,11 +261,16 @@ class _$PaginateConfigImpl implements _PaginateConfig {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PaginateConfigImpl &&
-            const DeepCollectionEquality().equals(other._sortableColumns, _sortableColumns) &&
-            const DeepCollectionEquality().equals(other._filterableColumns, _filterableColumns) &&
-            (identical(other.maxLimit, maxLimit) || other.maxLimit == maxLimit) &&
-            (identical(other.defaultLimit, defaultLimit) || other.defaultLimit == defaultLimit) &&
-            const DeepCollectionEquality().equals(other._defaultSortBy, _defaultSortBy));
+            const DeepCollectionEquality()
+                .equals(other._sortableColumns, _sortableColumns) &&
+            const DeepCollectionEquality()
+                .equals(other._filterableColumns, _filterableColumns) &&
+            (identical(other.maxLimit, maxLimit) ||
+                other.maxLimit == maxLimit) &&
+            (identical(other.defaultLimit, defaultLimit) ||
+                other.defaultLimit == defaultLimit) &&
+            const DeepCollectionEquality()
+                .equals(other._defaultSortBy, _defaultSortBy));
   }
 
   @JsonKey(ignore: true)
@@ -271,19 +287,23 @@ class _$PaginateConfigImpl implements _PaginateConfig {
   @override
   @pragma('vm:prefer-inline')
   _$$PaginateConfigImplCopyWith<_$PaginateConfigImpl> get copyWith =>
-      __$$PaginateConfigImplCopyWithImpl<_$PaginateConfigImpl>(this, _$identity);
+      __$$PaginateConfigImplCopyWithImpl<_$PaginateConfigImpl>(
+          this, _$identity);
 }
 
 abstract class _PaginateConfig implements PaginateConfig {
   const factory _PaginateConfig(
-      {@JsonKey(fromJson: _sortableColumnsFromJson) final Set<String> sortableColumns,
-      @JsonKey(fromJson: _filterableColumnsFromJson) final Map<String, Set<Type>> filterableColumns,
+      {@JsonKey(fromJson: _sortableColumnsFromJson)
+      final Set<String> sortableColumns,
+      @JsonKey(fromJson: _filterableColumnsFromJson)
+      final Map<String, Set<Type>> filterableColumns,
       final int maxLimit,
       final int defaultLimit,
       @JsonKey(fromJson: _defaultSortByFromJson)
       final Map<String, SortOrder> defaultSortBy}) = _$PaginateConfigImpl;
 
-  factory _PaginateConfig.fromJson(Map<String, dynamic> json) = _$PaginateConfigImpl.fromJson;
+  factory _PaginateConfig.fromJson(Map<String, dynamic> json) =
+      _$PaginateConfigImpl.fromJson;
 
   @override
 

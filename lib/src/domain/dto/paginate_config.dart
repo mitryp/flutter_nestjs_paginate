@@ -27,7 +27,9 @@ class PaginateConfig with _$PaginateConfig {
     ///
     /// If strict validation is enabled, adding a sort with the column not in the set will cause
     /// StateError. Otherwise, the sort will be ignored unless validation is disabled.
-    @Default({}) @JsonKey(fromJson: _sortableColumnsFromJson) Set<String> sortableColumns,
+    @Default({})
+    @JsonKey(fromJson: _sortableColumnsFromJson)
+    Set<String> sortableColumns,
 
     /// A set of columns allowed for filtering by.
     ///
@@ -45,15 +47,19 @@ class PaginateConfig with _$PaginateConfig {
     @Default(_defaultDefaultLimit) int defaultLimit,
 
     /// The default sorts applied when no sorts are configured in a controller.
-    @Default({}) @JsonKey(fromJson: _defaultSortByFromJson) Map<String, SortOrder> defaultSortBy,
+    @Default({})
+    @JsonKey(fromJson: _defaultSortByFromJson)
+    Map<String, SortOrder> defaultSortBy,
   }) = _PaginateConfig;
 
   /// Deserializes [PaginateConfig] from JSON received from a NestJS server. It can handle edge
   /// cases, such as {'column': true} in `filterableColumns` and other TS moments.
-  factory PaginateConfig.fromJson(Map<String, Object?> json) => _$PaginateConfigFromJson(json);
+  factory PaginateConfig.fromJson(Map<String, Object?> json) =>
+      _$PaginateConfigFromJson(json);
 }
 
-Map<String, SortOrder> _defaultSortByFromJson(List<dynamic> value) => Map.fromEntries(
+Map<String, SortOrder> _defaultSortByFromJson(List<dynamic> value) =>
+    Map.fromEntries(
       value.cast<List>().map((sort) {
         final [field as String, orderName as String] = sort;
         final order = SortOrder.fromName(orderName);
@@ -62,9 +68,12 @@ Map<String, SortOrder> _defaultSortByFromJson(List<dynamic> value) => Map.fromEn
       }),
     );
 
-Set<String> _sortableColumnsFromJson(List<dynamic> value) => value.cast<String>().toSet();
+Set<String> _sortableColumnsFromJson(List<dynamic> value) =>
+    value.cast<String>().toSet();
 
-Map<String, Set<Type>> _filterableColumnsFromJson(Map<String, dynamic> filters) => filters.map(
+Map<String, Set<Type>> _filterableColumnsFromJson(
+        Map<String, dynamic> filters) =>
+    filters.map(
       (field, value) {
         final List operators;
 
@@ -72,7 +81,9 @@ Map<String, Set<Type>> _filterableColumnsFromJson(Map<String, dynamic> filters) 
           operators = value;
         } else if (value is bool) {
           // to support 'column: true' in PaginateConfig in nestjs-paginate
-          operators = value ? FilterOperator.representations.toList(growable: false) : const [];
+          operators = value
+              ? FilterOperator.representations.toList(growable: false)
+              : const [];
         } else {
           throw StateError(
             'Unsupported syntax for filterableColumns: $value\n'
