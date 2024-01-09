@@ -461,6 +461,27 @@ void main() {
         expect(controller.sorts, isEmpty);
       });
 
+      test('Sorts are cleared correctly with a non-empty defaultSortBy', () {
+        const defaultSortBy = {testSortName1: testSort};
+        final controller = PaginationController(
+          paginateConfig: const PaginateConfig(
+            sortableColumns: {testSortName1},
+            defaultSortBy: defaultSortBy,
+          ),
+        );
+
+        expect(controller.sorts, hasLength(1));
+
+        controller.clearSorts();
+        expect(controller.sorts, isEmpty);
+
+        controller.clearSorts(resetDefaults: true);
+        expect(controller.sorts, equals(defaultSortBy));
+
+        controller.removeSort(testSortName1);
+        expect(controller.sorts, isEmpty);
+      });
+
       test('silently works correctly', () {
         // without silently controller should notify 4 times here
         controller

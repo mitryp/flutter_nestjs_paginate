@@ -109,7 +109,10 @@ abstract interface class PaginationController with ChangeNotifier {
   /// If no config is present, an empty map will be used instead.
   ///
   /// If the sort set is not empty, the listeners are notified.
-  void clearSorts();
+  ///
+  /// If the [resetDefaults] is set to true, the contents of the respective
+  /// [PaginateConfig.defaultSortBy] will be added to the sort list.
+  void clearSorts({bool resetDefaults = false});
 
   /// Adds a filter by the given [field] with the given [operator] to the query.
   ///
@@ -230,14 +233,20 @@ class PaginationControllerImpl
   }
 
   @override
-  void clearSorts() {
-    if (_sorts.isEmpty) return;
+  void clearSorts({bool resetDefaults = false}) {
+    bool wasChanged = false;
 
-    _sorts
-      ..clear()
-      ..addAll(paginateConfig.defaultSortBy);
+    if (_sorts.isNotEmpty) {
+      _sorts.clear();
+      wasChanged = true;
+    }
 
-    notifyListeners();
+    if (resetDefaults) {
+      _sorts.addAll(paginateConfig.defaultSortBy);
+      wasChanged |= paginateConfig.defaultSortBy.isNotEmpty;
+    }
+
+    if (wasChanged) notifyListeners();
   }
 
   @override
