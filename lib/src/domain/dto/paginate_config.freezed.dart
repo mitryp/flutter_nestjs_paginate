@@ -47,6 +47,12 @@ mixin _$PaginateConfig {
   Map<String, SortOrder> get defaultSortBy =>
       throw _privateConstructorUsedError;
 
+  /// The default filters to be applied.
+  /// This option is not supported by `nestjs-paginate` and purely the feature of this library.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Map<String, Set<FilterOperator>> get defaultFilters =>
+      throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $PaginateConfigCopyWith<PaginateConfig> get copyWith =>
       throw _privateConstructorUsedError;
@@ -65,7 +71,9 @@ abstract class $PaginateConfigCopyWith<$Res> {
       int maxLimit,
       int defaultLimit,
       @JsonKey(fromJson: _defaultSortByFromJson)
-      Map<String, SortOrder> defaultSortBy});
+      Map<String, SortOrder> defaultSortBy,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      Map<String, Set<FilterOperator>> defaultFilters});
 }
 
 /// @nodoc
@@ -86,6 +94,7 @@ class _$PaginateConfigCopyWithImpl<$Res, $Val extends PaginateConfig>
     Object? maxLimit = null,
     Object? defaultLimit = null,
     Object? defaultSortBy = null,
+    Object? defaultFilters = null,
   }) {
     return _then(_value.copyWith(
       sortableColumns: null == sortableColumns
@@ -108,6 +117,10 @@ class _$PaginateConfigCopyWithImpl<$Res, $Val extends PaginateConfig>
           ? _value.defaultSortBy
           : defaultSortBy // ignore: cast_nullable_to_non_nullable
               as Map<String, SortOrder>,
+      defaultFilters: null == defaultFilters
+          ? _value.defaultFilters
+          : defaultFilters // ignore: cast_nullable_to_non_nullable
+              as Map<String, Set<FilterOperator>>,
     ) as $Val);
   }
 }
@@ -127,7 +140,9 @@ abstract class _$$PaginateConfigImplCopyWith<$Res>
       int maxLimit,
       int defaultLimit,
       @JsonKey(fromJson: _defaultSortByFromJson)
-      Map<String, SortOrder> defaultSortBy});
+      Map<String, SortOrder> defaultSortBy,
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      Map<String, Set<FilterOperator>> defaultFilters});
 }
 
 /// @nodoc
@@ -146,6 +161,7 @@ class __$$PaginateConfigImplCopyWithImpl<$Res>
     Object? maxLimit = null,
     Object? defaultLimit = null,
     Object? defaultSortBy = null,
+    Object? defaultFilters = null,
   }) {
     return _then(_$PaginateConfigImpl(
       sortableColumns: null == sortableColumns
@@ -168,6 +184,10 @@ class __$$PaginateConfigImplCopyWithImpl<$Res>
           ? _value._defaultSortBy
           : defaultSortBy // ignore: cast_nullable_to_non_nullable
               as Map<String, SortOrder>,
+      defaultFilters: null == defaultFilters
+          ? _value._defaultFilters
+          : defaultFilters // ignore: cast_nullable_to_non_nullable
+              as Map<String, Set<FilterOperator>>,
     ));
   }
 }
@@ -183,10 +203,13 @@ class _$PaginateConfigImpl implements _PaginateConfig {
       this.maxLimit = _defaultMaxLimit,
       this.defaultLimit = _defaultDefaultLimit,
       @JsonKey(fromJson: _defaultSortByFromJson)
-      final Map<String, SortOrder> defaultSortBy = const {}})
+      final Map<String, SortOrder> defaultSortBy = const {},
+      @JsonKey(includeFromJson: false, includeToJson: false)
+      final Map<String, Set<FilterOperator>> defaultFilters = const {}})
       : _sortableColumns = sortableColumns,
         _filterableColumns = filterableColumns,
-        _defaultSortBy = defaultSortBy;
+        _defaultSortBy = defaultSortBy,
+        _defaultFilters = defaultFilters;
 
   factory _$PaginateConfigImpl.fromJson(Map<String, dynamic> json) =>
       _$$PaginateConfigImplFromJson(json);
@@ -251,9 +274,23 @@ class _$PaginateConfigImpl implements _PaginateConfig {
     return EqualUnmodifiableMapView(_defaultSortBy);
   }
 
+  /// The default filters to be applied.
+  /// This option is not supported by `nestjs-paginate` and purely the feature of this library.
+  final Map<String, Set<FilterOperator>> _defaultFilters;
+
+  /// The default filters to be applied.
+  /// This option is not supported by `nestjs-paginate` and purely the feature of this library.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Map<String, Set<FilterOperator>> get defaultFilters {
+    if (_defaultFilters is EqualUnmodifiableMapView) return _defaultFilters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_defaultFilters);
+  }
+
   @override
   String toString() {
-    return 'PaginateConfig(sortableColumns: $sortableColumns, filterableColumns: $filterableColumns, maxLimit: $maxLimit, defaultLimit: $defaultLimit, defaultSortBy: $defaultSortBy)';
+    return 'PaginateConfig(sortableColumns: $sortableColumns, filterableColumns: $filterableColumns, maxLimit: $maxLimit, defaultLimit: $defaultLimit, defaultSortBy: $defaultSortBy, defaultFilters: $defaultFilters)';
   }
 
   @override
@@ -270,7 +307,9 @@ class _$PaginateConfigImpl implements _PaginateConfig {
             (identical(other.defaultLimit, defaultLimit) ||
                 other.defaultLimit == defaultLimit) &&
             const DeepCollectionEquality()
-                .equals(other._defaultSortBy, _defaultSortBy));
+                .equals(other._defaultSortBy, _defaultSortBy) &&
+            const DeepCollectionEquality()
+                .equals(other._defaultFilters, _defaultFilters));
   }
 
   @JsonKey(ignore: true)
@@ -281,7 +320,8 @@ class _$PaginateConfigImpl implements _PaginateConfig {
       const DeepCollectionEquality().hash(_filterableColumns),
       maxLimit,
       defaultLimit,
-      const DeepCollectionEquality().hash(_defaultSortBy));
+      const DeepCollectionEquality().hash(_defaultSortBy),
+      const DeepCollectionEquality().hash(_defaultFilters));
 
   @JsonKey(ignore: true)
   @override
@@ -293,14 +333,17 @@ class _$PaginateConfigImpl implements _PaginateConfig {
 
 abstract class _PaginateConfig implements PaginateConfig {
   const factory _PaginateConfig(
-      {@JsonKey(fromJson: _sortableColumnsFromJson)
-      final Set<String> sortableColumns,
-      @JsonKey(fromJson: _filterableColumnsFromJson)
-      final Map<String, Set<Type>> filterableColumns,
-      final int maxLimit,
-      final int defaultLimit,
-      @JsonKey(fromJson: _defaultSortByFromJson)
-      final Map<String, SortOrder> defaultSortBy}) = _$PaginateConfigImpl;
+          {@JsonKey(fromJson: _sortableColumnsFromJson)
+          final Set<String> sortableColumns,
+          @JsonKey(fromJson: _filterableColumnsFromJson)
+          final Map<String, Set<Type>> filterableColumns,
+          final int maxLimit,
+          final int defaultLimit,
+          @JsonKey(fromJson: _defaultSortByFromJson)
+          final Map<String, SortOrder> defaultSortBy,
+          @JsonKey(includeFromJson: false, includeToJson: false)
+          final Map<String, Set<FilterOperator>> defaultFilters}) =
+      _$PaginateConfigImpl;
 
   factory _PaginateConfig.fromJson(Map<String, dynamic> json) =
       _$PaginateConfigImpl.fromJson;
@@ -335,6 +378,12 @@ abstract class _PaginateConfig implements PaginateConfig {
   /// The default sorts applied when no sorts are configured in a controller.
   @JsonKey(fromJson: _defaultSortByFromJson)
   Map<String, SortOrder> get defaultSortBy;
+  @override
+
+  /// The default filters to be applied.
+  /// This option is not supported by `nestjs-paginate` and purely the feature of this library.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  Map<String, Set<FilterOperator>> get defaultFilters;
   @override
   @JsonKey(ignore: true)
   _$$PaginateConfigImplCopyWith<_$PaginateConfigImpl> get copyWith =>

@@ -50,6 +50,12 @@ class PaginateConfig with _$PaginateConfig {
     @Default({})
     @JsonKey(fromJson: _defaultSortByFromJson)
     Map<String, SortOrder> defaultSortBy,
+
+    /// The default filters to be applied.
+    /// This option is not supported by `nestjs-paginate` and purely the feature of this library.
+    @Default({})
+    @JsonKey(includeFromJson: false, includeToJson: false)
+    Map<String, Set<FilterOperator>> defaultFilters,
   }) = _PaginateConfig;
 
   /// Deserializes [PaginateConfig] from JSON received from a NestJS server. It can handle edge

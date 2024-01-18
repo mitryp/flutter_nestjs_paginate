@@ -1,3 +1,7 @@
+## 1.0.3
+
+* Added `defaultFilters` to `PaginateConfig`. 
+
 ## 1.0.2
 
 * Fixed the inability to remove the default sorts.

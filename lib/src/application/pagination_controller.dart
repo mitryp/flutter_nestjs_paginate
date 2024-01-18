@@ -131,8 +131,12 @@ abstract interface class PaginationController with ChangeNotifier {
   void removeFilter(String field, [FilterOperator? operator]);
 
   /// Removes all filters from the query.
+  ///
   /// If the filter set is not empty, the listeners are notified.
-  void clearFilters();
+  ///
+  /// If the [resetDefaults] is set to true, the contents of the respective
+  /// [PaginateConfig.defaultFilters] will be added to the filter list.
+  void clearFilters({bool resetDefaults = false});
 
   /// Performs the operations on this controller without notifying listeners.
   /// Use it to replace filters or sorts, or change multiple parameters at once without unnecessary
@@ -151,9 +155,7 @@ abstract interface class PaginationController with ChangeNotifier {
 }
 
 @visibleForTesting
-class PaginationControllerImpl
-    with ChangeNotifier
-    implements PaginationController {
+class PaginationControllerImpl with ChangeNotifier implements PaginationController {
   /// Whether this controller should validate the columns used in [addSort] and [addFilter].
   final bool _validateColumns;
 
@@ -294,10 +296,23 @@ class PaginationControllerImpl
   }
 
   @override
-  void clearFilters() {
-    if (_filters.isEmpty) return;
+  void clearFilters({bool resetDefaults = false}) {
+    bool wasChanged = false;
 
-    _notifyOf(_filters.clear);
+    if (_filters.isNotEmpty) {
+      _filters.clear();
+      wasChanged = true;
+    }
+
+    if (resetDefaults) {
+      final defaults = paginateConfig.defaultFilters.map(
+        (key, value) => MapEntry(key, value.toSet()),
+      );
+      _filters.addAll(defaults);
+      wasChanged |= defaults.isNotEmpty;
+    }
+
+    if (wasChanged) notifyListeners();
   }
 
   @override
@@ -354,6 +369,9 @@ class PaginationControllerImpl
     if (sorts.isEmpty) {
       _sorts.addAll(paginateConfig.defaultSortBy);
     }
+    if (filters.isEmpty) {
+      silently((controller) => controller.clearFilters(resetDefaults: true));
+    }
   }
 
   @override
@@ -378,8 +396,7 @@ class PaginationControllerImpl
   bool _isFilterValid(String column, FilterOperator operator) {
     final filterableColumns = paginateConfig.filterableColumns;
 
-    if (!_validateColumns ||
-        (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
+    if (!_validateColumns || (filterableColumns[column]?.contains(operator.runtimeType) ?? false)) {
       return true;
     }
 
